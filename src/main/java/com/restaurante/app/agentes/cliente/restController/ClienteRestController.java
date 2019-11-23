@@ -22,13 +22,6 @@ import com.restaurante.app.global.entities.Orden;
 @CrossOrigin(origins = { "http://localhost:4200" }) //anotacion necesaria
 @RestController
 public class ClienteRestController {
-	
-	/**
-	 * Atributo que perite la gestion de los clientes
-	 */
-	@Autowired
-	private GestionarCliente gestionarCliente;
-	
 
 	/**
 	 * Cuando llega el cliente o los clientes estos seleccionan la mesa
@@ -36,7 +29,7 @@ public class ClienteRestController {
 	 */
 	@GetMapping(value = "/obtenerMesaLibre/{numeroClientes}")
 	public void seleccionarMesa(Mesa mesa) {
-		gestionarCliente.setMesa(mesa);
+		GestionarCliente.instance.setMesa(mesa);
 	}
 	
 	/**
@@ -46,8 +39,8 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/solicitarPedido")
 	public Orden solicitarPedido(@Valid @RequestBody Mesero mesero) {
-		Orden orden = gestionarCliente.generarOrden();
-		orden.setTable(gestionarCliente.getMesa());
+		Orden orden = GestionarCliente.instance.generarOrden();
+		orden.setTable(GestionarCliente.instance.getMesa());
 		return  orden;
 	}
 	
@@ -57,7 +50,7 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/recibirOrden")
 	public Orden recibirPedido(@Valid @RequestBody Orden orden) {
-		return gestionarCliente.calificarOrdenesPersonales(orden);
+		return GestionarCliente.instance.calificarOrdenesPersonales(orden);
 	}
 	
 	/**
