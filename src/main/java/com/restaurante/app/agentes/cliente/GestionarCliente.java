@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
 
@@ -15,7 +18,19 @@ import com.restaurante.app.global.entities.OrdenPersonal;
  */
 public class GestionarCliente {
 	
+	/**
+	 * Tiempo de llegada al restaurante despues de que llego la primer persona 
+	 * o el primer grupo de personas
+	 */
 	private int tiempoLlegada; 
+	/**
+	 * Atributo qe permite conocer la cantidad de clientes
+	 */
+	private int numeroClientes;
+	/**
+	 * Atributo que representa la mesa asignada
+	 */
+	private Mesa mesa;
 	
 	public GestionarCliente() {
 		// TODO Auto-generated constructor stub
@@ -26,7 +41,7 @@ public class GestionarCliente {
 	 * @return
 	 */
 	public List<Cliente> tiempoLlegada(){
-		this.tiempoLlegada += (int) (Math.random()*10+3);
+		this.tiempoLlegada += (int) (Math.random()*10+5);
 		return llegadaClientes(this.tiempoLlegada);
 	}
 	
@@ -39,7 +54,7 @@ public class GestionarCliente {
      * @return A list of clients (diners) ranging between 1 to 5 members
      */
     public List<Cliente> llegadaClientes(int arrivalTime) {
-        return IntStream.rangeClosed(1, new Random().nextInt(5) + 1)
+        return IntStream.rangeClosed(1, new Random().nextInt(Mesa.CAPACIDAD_MAXIMA) + 1)
                 .mapToObj(x -> new Cliente(arrivalTime))
                 .collect(Collectors.toList());
     }
@@ -62,6 +77,7 @@ public class GestionarCliente {
      * @return
      */
 	public ArrayList<OrdenPersonal> crearOrden(List<Cliente> clientes) {
+		this.numeroClientes = clientes.size();
 		ArrayList<OrdenPersonal> ordenesPersonales = new ArrayList<>();
 		
         ordenesPersonales.addAll(clientes.stream()
@@ -72,7 +88,40 @@ public class GestionarCliente {
         return ordenesPersonales;
     }
 	
-	public void calificarOrdenesPersonales(Orden orden) {
+	/**
+	 * Metodo encargado de calificar los platos despues que realiza el consumo
+	 * @param orden preparada servicio que entra al cliente
+	 */
+	public Orden calificarOrdenesPersonales(Orden orden) {
 		orden.getPersonalOrders().forEach(OrdenPersonal::calificarPlatos);
+		return orden;
 	}
+	
+	/**
+	 * Metodo encargado de retornar el numero de clientes por mesa
+	 * @return
+	 */
+	public int getNumeroClientes() {
+		return numeroClientes;
+	}
+	
+	public void setMesa(Mesa mesa) {
+		this.mesa = mesa;
+	}
+	
+	public Mesa getMesa() {
+		return mesa;
+	}
+	
+	
+	/**
+	 *  Metodo encargado de calificar el mesero 
+	 * @param mesero
+	 * @return
+	 */
+//	public Mesero calificarMesero(Mesero mesero) {
+//		int calificacion = (int) (Math.random()*5);
+//		return mesero.calificar(calificacion);
+//	}
+	
 }
