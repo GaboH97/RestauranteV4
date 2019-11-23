@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.restaurante.app.agentes.cliente.Cliente;
-import com.restaurante.app.agentes.mesa.Mesa;
+
+import com.restaurante.app.agentes.mesa.model.Mesa;
+
 
 /**
  *

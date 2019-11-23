@@ -1,4 +1,4 @@
-package model;
+package com.restaurante.app.agentes.mesa.model;
 
 /**
  *
