@@ -17,6 +17,7 @@ public class Orden {
 	private Mesa mesa;
 	private ArrayList<OrdenPersonal> ordenesPersonales;
 	private EstrategiaPago estrategiaPago;
+	private boolean estaPreparado;
 
 	public Orden() {
 		this.id = ORDEN_COUNT++;
@@ -67,6 +68,11 @@ public class Orden {
 	public Cliente obtenerClienteAzarPagar() {
 		return ordenesPersonales.get(new Random().nextInt(ordenesPersonales.size())).getClient();
 	}
+	
+    public boolean isEstaPreparado() {
+		estaPreparado = ordenesPersonales.stream().allMatch(OrdenPersonal::isEstaPreparado);
+		return estaPreparado;
+    }
 
 	// ============ GETTERS & SETTERS ================
 	public int getId() {

@@ -14,6 +14,7 @@ public class OrdenPersonal {
 
     private Cliente cliente;
     private ArrayList<PlatoOrdenado> platosOrdenados;
+    private boolean estaPreparado;
 
     /**
      *
@@ -23,6 +24,7 @@ public class OrdenPersonal {
     public OrdenPersonal(Cliente cliente, ArrayList<Plato> selectedDishes) {
         this.cliente = cliente;
         this.platosOrdenados = new ArrayList<>();
+        this.estaPreparado = false;
         setSelectedDishes(selectedDishes);
     }
 
@@ -35,6 +37,8 @@ public class OrdenPersonal {
         Random r = new Random();
         platosOrdenados.forEach(o -> o.setCalificacion(r.nextInt(6)));
     }
+    
+    
       
 
 //    /**
@@ -103,6 +107,15 @@ public class OrdenPersonal {
     public void setPlatosOrdenados(ArrayList<PlatoOrdenado> orderedDishes) {
         this.platosOrdenados = orderedDishes;
     }
+   
+    public boolean isEstaPreparado() {
+		estaPreparado = platosOrdenados.stream().allMatch(PlatoOrdenado::isEstaPreparado);
+		return estaPreparado;
+    }
+    
+    public void setEstaPreparado(boolean estaPreparado) {
+		this.estaPreparado = estaPreparado;
+	}
 
     @Override
     public String toString() {
