@@ -35,4 +35,13 @@ public class MesaRestController {
 	public void liberarMesa(@PathVariable Integer idMesa) {
 		Controller.gestInstance().liberarMesa(idMesa); 
 	}
+	
+	/**
+	 * metodo que permite obtener todas las mesas 
+	 * @return la lista completa de las mesas 
+	 */
+	@GetMapping(value = "/obtenerMesas")
+	public ArrayList<Mesa> obtenerMesas() {
+		return Controller.gestInstance().obtenerMesas();
+	}
 }

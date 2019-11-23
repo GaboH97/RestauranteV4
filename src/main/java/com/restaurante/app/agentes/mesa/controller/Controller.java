@@ -30,5 +30,9 @@ public class Controller {
 	private Controller() {
 		daoMesa = new DaoMesa();
 	}
+	
+	public ArrayList<Mesa> obtenerMesas() {
+		return daoMesa.obtenerMesas();
+	}
 }
 

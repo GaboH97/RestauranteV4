@@ -32,4 +32,7 @@ public class DaoMesa {
 		}
 	}
 	
+	public ArrayList<Mesa> obtenerMesas() {
+		return listaMesa;
+	}
 }
