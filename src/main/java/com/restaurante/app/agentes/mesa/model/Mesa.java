@@ -22,6 +22,9 @@ public class Mesa {
         this.indicadorCalidad = indicadorCalidad;
         this.capacidad = capacidad;
     }
+    
+    public Mesa() {
+	}
 
     public void ocupar() {
         this.disponible = false;

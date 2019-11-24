@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import com.restaurante.app.global.entities.Orden;
 
+/**
+ * 
+ * @author Milton Quintero
+ *
+ */
 public class Mesero {
 
 	public static final int TIEMPO_DESCANSO = 10; // In minutes
@@ -20,6 +25,9 @@ public class Mesero {
 		//this.serviceRatesPerWorkDay = new HashMap<>();
 		this.ordenes = new ArrayList<>();
 		this.estado = EstadoMesero.DISPONIBLE;
+	}
+	
+	public Mesero() {
 	}
 
 	public void attendTables() {
