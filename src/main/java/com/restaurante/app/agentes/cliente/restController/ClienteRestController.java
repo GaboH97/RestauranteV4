@@ -27,8 +27,8 @@ public class ClienteRestController {
 	 * Cuando llega el cliente o los clientes estos seleccionan la mesa
 	 * @param mesa
 	 */
-	@GetMapping(value = "/obtenerMesaLibre/{numeroClientes}")
-	public void seleccionarMesa(Mesa mesa) {
+	@GetMapping(value = "/obtenerMesaLibre")
+	public void seleccionarMesa(@Valid @RequestBody Mesa mesa) {
 		GestionarCliente.instance.setMesa(mesa);
 	}
 	
