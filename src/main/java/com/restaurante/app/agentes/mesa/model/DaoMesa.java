@@ -15,11 +15,13 @@ public class DaoMesa {
 	
 	public Mesa getMesaLibre(int numeroClientes) {
 		for (Mesa mesa : listaMesa) {
-			if(mesa.getCapacidad() < numeroClientes&&
+			if(mesa.getCapacidad() >= numeroClientes&&
 					mesa.isDisponible()) {
 				mesa.ocupar();
+				System.out.println("entro");
 				return mesa;
 			}
+			System.out.println("no entro");
 		}
 		return null;
 	}
