@@ -31,16 +31,6 @@ public class ClienteRestController {
 	public void seleccionarMesa(@Valid @RequestBody Mesa mesa) {
 		GestionarCliente.getInstance().setMesa(mesa);
 	}
-	
-//	/**
-//	 * Cuando llega el cliente o los clientes estos seleccionan la mesa
-//	 * @param mesa
-//	 */
-//	@GetMapping(value = "/obtenerMesaLibre/{numeroClientes}")
-//	public void seleccionarMesa(Mesa mesa) {
-//		GestionarCliente.instance.setMesa(mesa);
-//	}
-//	
 
 	/**
 	 *  Los clientes de la mesa asignada solicitan el pedido
@@ -61,6 +51,15 @@ public class ClienteRestController {
 	@PostMapping("/recibirOrden")
 	public Orden recibirPedido(@Valid @RequestBody Orden orden) {
 		return GestionarCliente.getInstance().calificarOrdenesPersonales(orden);
+	}
+	
+	/**
+	 * Metodo encargado de retornar el numero de clientes
+	 * @return numero de clientes
+	 */
+	@GetMapping(value = "/obtenerMesaLibre")
+	public int numorClientes() {
+		return GestionarCliente.getInstance().getNumeroClientes();
 	}
 	
 	/**
