@@ -57,8 +57,8 @@ public class ClienteRestController {
 	 * Metodo encargado de retornar el numero de clientes
 	 * @return numero de clientes
 	 */
-	@GetMapping(value = "/obtenerMesaLibre")
-	public int numorClientes() {
+	@GetMapping(value = "/obtenerNumeroClientes")
+	public int numeroClientes() {
 		return GestionarCliente.getInstance().getNumeroClientes();
 	}
 	
