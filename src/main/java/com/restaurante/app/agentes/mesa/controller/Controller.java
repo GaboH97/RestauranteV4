@@ -16,6 +16,12 @@ public class Controller {
 	public void liberarMesa(int idMesa) {
 		daoMesa.liberarMesa(idMesa);
 	}
+	
+	public void generarMesas() {
+		for (int i = 0; i < 14; i++) {
+			daoMesa.addMesa(new Mesa(1, 1, Mesa.CAPACIDAD_MAXIMA));
+		}
+	}
 //patron singleton------------------------------
 	
 	public static Controller instance;
@@ -24,6 +30,7 @@ public class Controller {
 	public static Controller gestInstance() {
 		if (instance == null) {
 			instance = new Controller();
+			instance.generarMesas();
 		}
 		return instance;
 	}
