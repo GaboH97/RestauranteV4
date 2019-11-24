@@ -15,7 +15,7 @@ public class DaoMesa {
 	
 	public Mesa getMesaLibre(int numeroClientes) {
 		for (Mesa mesa : listaMesa) {
-			if(mesa.getCapacidad() < numeroClientes&&
+			if(mesa.getCapacidad() >= numeroClientes&&
 					mesa.isDisponible()) {
 				mesa.ocupar();
 				return mesa;
