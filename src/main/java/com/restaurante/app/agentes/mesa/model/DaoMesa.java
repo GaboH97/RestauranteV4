@@ -18,10 +18,8 @@ public class DaoMesa {
 			if(mesa.getCapacidad() >= numeroClientes&&
 					mesa.isDisponible()) {
 				mesa.ocupar();
-				System.out.println("entro");
 				return mesa;
 			}
-			System.out.println("no entro");
 		}
 		return null;
 	}
