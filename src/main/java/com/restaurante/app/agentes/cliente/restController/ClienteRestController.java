@@ -23,15 +23,15 @@ import com.restaurante.app.global.entities.Orden;
 @RestController
 public class ClienteRestController {
 
-	/**
-	 * Cuando llega el cliente o los clientes estos seleccionan la mesa
-	 * @param mesa
-	 */
-	@GetMapping(value = "/obtenerMesaLibre/{numeroClientes}")
-	public void seleccionarMesa(Mesa mesa) {
-		GestionarCliente.instance.setMesa(mesa);
-	}
-	
+//	/**
+//	 * Cuando llega el cliente o los clientes estos seleccionan la mesa
+//	 * @param mesa
+//	 */
+//	@GetMapping(value = "/obtenerMesaLibre/{numeroClientes}")
+//	public void seleccionarMesa(Mesa mesa) {
+//		GestionarCliente.instance.setMesa(mesa);
+//	}
+//	
 	/**
 	 *  Los clientes de la mesa asignada solicitan el pedido
 	 * @param mesero
