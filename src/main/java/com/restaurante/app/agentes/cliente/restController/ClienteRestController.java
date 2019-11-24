@@ -29,7 +29,7 @@ public class ClienteRestController {
 	 */
 	@GetMapping(value = "/obtenerMesaLibre")
 	public void seleccionarMesa(@Valid @RequestBody Mesa mesa) {
-		GestionarCliente.instance.setMesa(mesa);
+		GestionarCliente.getInstance().setMesa(mesa);
 	}
 	
 //	/**
@@ -49,8 +49,8 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/solicitarPedido")
 	public Orden solicitarPedido(@Valid @RequestBody Mesero mesero) {
-		Orden orden = GestionarCliente.instance.generarOrden();
-		orden.setTable(GestionarCliente.instance.getMesa());
+		Orden orden = GestionarCliente.getInstance().generarOrden();
+		//orden.setTable(GestionarCliente.getInstance().getMesa());
 		return  orden;
 	}
 	
@@ -60,7 +60,7 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/recibirOrden")
 	public Orden recibirPedido(@Valid @RequestBody Orden orden) {
-		return GestionarCliente.instance.calificarOrdenesPersonales(orden);
+		return GestionarCliente.getInstance().calificarOrdenesPersonales(orden);
 	}
 	
 	/**

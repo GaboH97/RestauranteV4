@@ -51,7 +51,7 @@ public class ManagerMeseros {
 	 */
 	public ArrayList<Orden> obtenerOrdenes() {
 		ArrayList<Orden> ordenes = new ArrayList<>();
-		this.meseros.forEach(m -> ordenes.addAll(m.getOrdenesTomadas()));
+		this.meseros.forEach(m -> ordenes.addAll(m.getOrdenes()));
 		return ordenes;
 	}
 
@@ -65,7 +65,7 @@ public class ManagerMeseros {
 	 * @return
 	 */
 	public List<Orden> obtenerOrdenesPorMesero(int idMesero) {
-		return meseros.stream().filter(m-> m.getId()==idMesero).findFirst().orElse(null).getOrdenesTomadas();
+		return meseros.stream().filter(m-> m.getId()==idMesero).findFirst().orElse(null).getOrdenes();
 	}
 	
 	

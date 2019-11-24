@@ -16,6 +16,9 @@ public class PlatoOrdenado {
 		this.calificacion = 0;
 		this.estaPreparado = false;
 	}
+	
+	public PlatoOrdenado() {
+	}
 
 	public Plato getPlato() {
 		return plato;

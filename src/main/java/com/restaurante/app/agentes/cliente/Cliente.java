@@ -24,10 +24,6 @@ public class Cliente {
 
 
     public Cliente() {
-        this.id = ID_CLIENTE++;
-        this.nombre = "Cliente " + id;
-        this.tiempoConsumo = (int) (Math.random()*5+1); 
-        this.tiempoLLegada = 0;
     }
 
     public Cliente(int arrivalTime) {

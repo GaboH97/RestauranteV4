@@ -107,7 +107,7 @@ public class Mesero {
 //		this.serviceRatesPerWorkDay = serviceRatesPerWorkDay;
 //	}
 
-	public ArrayList<Orden> getOrdenesTomadas() {
+	public ArrayList<Orden> getOrdenes() {
 		return ordenes;
 	}
 

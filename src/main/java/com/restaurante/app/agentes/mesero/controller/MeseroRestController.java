@@ -24,7 +24,7 @@ import com.restaurante.app.global.entities.Orden;
 
 @RestController
 @RequestMapping("/api/meseros")
-public class MeseroController {
+public class MeseroRestController {
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -100,7 +100,7 @@ public class MeseroController {
 
 	}
 	
-	@GetMapping("meseroLibre")
+	@GetMapping("obtenerMeseroLibre")
 	public Mesero obtenerMeseroDisponible() {
 		return managerMeseros.obtenerMeseroDisponible();
 	}

@@ -32,6 +32,9 @@ public class OrdenPersonal {
         this.cliente = cliente;
         this.platosOrdenados = new ArrayList<>();
     }
+    
+    public OrdenPersonal() {
+	}
 
     public void calificarPlatos() {
         Random r = new Random();

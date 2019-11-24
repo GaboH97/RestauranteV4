@@ -33,14 +33,13 @@ public class GestionarCliente {
 	 */
 	private Mesa mesa;
 	
-	public GestionarCliente() {
-		// TODO Auto-generated constructor stub
+	private GestionarCliente() {
 	}
 	
-	public static GestionarCliente instance;
+	private static GestionarCliente instance;
 
 	//metodo que permite obtener una instancia de la clase
-	public static GestionarCliente gestInstance() {
+	public static GestionarCliente getInstance() {
 		if (instance == null) {
 			instance = new GestionarCliente();
 		}

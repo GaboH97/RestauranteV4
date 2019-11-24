@@ -25,6 +25,9 @@ public class Plato implements Serializable {
 		this.precio = price;
 		this.tiempoCoccion = cookingTime;
 	}
+	
+	public Plato() {
+	}
 
 	public String getNombre() {
 		return nombre;
