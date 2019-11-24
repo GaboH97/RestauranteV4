@@ -1,11 +1,8 @@
 package com.restaurante.app.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,14 +24,16 @@ public class RestauranteController {
 
 	@GetMapping("simular")
 	public void simular() {
-		//Obtene el mesero disponible que puede tomar la orden
 		Mesero mesero = obtenerMeseroDisponible();
 		Orden orden = generarOrden(mesero);
 		Mesa mesa = obtenerMesaDisponible(orden.getPersonalOrders().size());
-		
-		System.out.println("ESTA ES LA MESA"+mesa);
 		orden.setMesa(mesa);
 		//Aquí se manda la orden a la cocina
+		
+		//comen (pasa el tiempo de consumo)
+		//aqui se libera la mesa
+			//aqui se paga 
+			//libera la mesa
 	}
 	
 	private Mesero obtenerMeseroDisponible() {
