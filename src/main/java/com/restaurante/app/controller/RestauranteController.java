@@ -27,12 +27,14 @@ public class RestauranteController {
 
 	@GetMapping("simular")
 	public void simular() {
+		//Obtene el mesero disponible que puede tomar la orden
 		Mesero mesero = obtenerMeseroDisponible();
-		System.out.println("Mesero es "+mesero);
 		Orden orden = generarOrden(mesero);
+		Mesa mesa = obtenerMesaDisponible(orden.getPersonalOrders().size());
 		
-		System.out.println("Orden es "+orden);
-
+		System.out.println("ESTA ES LA MESA"+mesa);
+		orden.setMesa(mesa);
+		//Aquí se manda la orden a la cocina
 	}
 	
 	private Mesero obtenerMeseroDisponible() {
@@ -45,9 +47,9 @@ public class RestauranteController {
 	 * 
 	 * @return
 	 */
-	private Mesa obtenerMesaDisponible() {
-		String url = "http://localhost:8080/obtenerMesaLibre";
-		return  restTemplate.getForObject(url, Mesa.class);
+	private Mesa obtenerMesaDisponible(int numeroClientes) {
+		String url = "http://localhost:8080/obtenerMesaLibre/{numeroClientes}";
+		return  restTemplate.getForObject(url, Mesa.class, numeroClientes);
 	}
 
 	public List<Cliente> entradaClientes() {

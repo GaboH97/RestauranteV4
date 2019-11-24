@@ -96,11 +96,11 @@ public class Orden {
 		this.id = id;
 	}
 
-	public Mesa getTable() {
+	public Mesa getMesa() {
 		return mesa;
 	}
 
-	public void setTable(Mesa mesa) {
+	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
 
