@@ -6,35 +6,42 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.Plato;
 import com.restaurante.app.global.entities.PlatoOrdenado;
 import com.restaurante.app.global.entities.TipoPlato;
 
 public class ManagerRestaurante {
-	
+
 	private ArrayList<Orden> historialOrdenes;
-	
+
+	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
+
+	private Map<Plato, Long> cantidadVecesPlatoOrdenado;
+
+	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
+
 	private static ManagerRestaurante instance;
-	
+
 	private ManagerRestaurante() {
 		historialOrdenes = new ArrayList<>();
 	}
-	
+
 	public static ManagerRestaurante getInstance() {
-		if(instance!=null) {
+		if (instance != null) {
 			instance = new ManagerRestaurante();
 		}
 		return instance;
 	}
-	
+
 	public void agregarOrdenAHistorial(Orden orden) {
 		this.historialOrdenes.add(orden);
 	}
 
-	
 	public ArrayList<Orden> getHistorialOrdenes() {
 		return historialOrdenes;
 	}
@@ -43,68 +50,101 @@ public class ManagerRestaurante {
 		this.historialOrdenes = historialOrdenes;
 	}
 	
-	public void generarEstadisticas() {
-		
-	}
-	
 	/**
-    *
-    * @return
-    */
-   public Map<Plato, Double> obtenerPlatosMejorCalificadosPorTipoPlato() {
-       Map<Plato, Double> platosMejorCalificadosPorTipoPlato = new HashMap<>();
-       Map<Plato, Double> platosOrdenados = obtenerPlatosConCalificacionPromedio();
+	 * Método que genera las estadísticas solicitadas
+	 */
+	public void generarEstadisticas() {
+		this.platosMejorCalificadosPorTipoPlato = obtenerPlatosMejorCalificadosPorTipoPlato();
+		this.cantidadVecesPlatoOrdenado = obtenerCantidadVecesPlatoOrdenado();
+		this.numeroOrdenesPorEstrategiaPago = obtenerNumeroOrdenesPorEstrategiaPago();
+	}
 
-       //Get Dish Type values
-       List<TipoPlato> dishTypes = Arrays.asList(TipoPlato.values());
+	/**
+	 * Método que obtiene los platos, en promedio, mejor calificados de acuerdo al tipo de plato
+	 * @return
+	 */
+	private Map<Plato, Double> obtenerPlatosMejorCalificadosPorTipoPlato() {
+		Map<Plato, Double> platosMejorCalificadosPorTipoPlato = new HashMap<>();
+		Map<Plato, Double> platosOrdenados = obtenerPlatosConCalificacionPromedio();
 
-       dishTypes.forEach((TipoPlato tipoPlato) -> {
+		// Get Dish Type values
+		List<TipoPlato> dishTypes = Arrays.asList(TipoPlato.values());
 
-           //Filter Map entries by dish type
-           Map<Plato, Double> dishesPerType = platosOrdenados.entrySet()
-                   .stream()
-                   .filter((Map.Entry<Plato, Double> e) -> e.getKey().getTipoPlato().equals(tipoPlato))
-                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+		dishTypes.forEach((TipoPlato tipoPlato) -> {
 
-           //Get best selling dish
-           Map.Entry<Plato, Double> max = Collections.max(dishesPerType.entrySet(), Map.Entry.comparingByValue());
+			// Filter Map entries by dish type
+			Map<Plato, Double> dishesPerType = platosOrdenados.entrySet().stream()
+					.filter((Map.Entry<Plato, Double> e) -> e.getKey().getTipoPlato().equals(tipoPlato))
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-           platosMejorCalificadosPorTipoPlato.put(max.getKey(), max.getValue());
+			// Get best selling dish
+			Map.Entry<Plato, Double> max = Collections.max(dishesPerType.entrySet(), Map.Entry.comparingByValue());
 
-       });
+			platosMejorCalificadosPorTipoPlato.put(max.getKey(), max.getValue());
 
-       return platosMejorCalificadosPorTipoPlato;
+		});
 
-   }
-   
-   /**
-    * Método que obtiene los platos con su calificación promedio
-    * @return
-    */
-   private Map<Plato, Double> obtenerPlatosConCalificacionPromedio() {
-       List<PlatoOrdenado> todosPlatosOrdenados = getAllOrderedDishes();
-       Map<Plato, Double> dishesWithAverageRate = todosPlatosOrdenados
-               .stream()
-               .collect(
-                       Collectors.groupingBy(
-                               PlatoOrdenado::getPlato,
-                               Collectors.averagingDouble(PlatoOrdenado::getCalificacion)));
-       return dishesWithAverageRate;
-   }
-   
-   /**
-    * Métodos que retorna una lista con todos los platos ordenados desde el inicio de la simulación
-    * @return 
-    */
-   private List<PlatoOrdenado> getAllOrderedDishes() {
-       List<PlatoOrdenado> platosOrdenados = new ArrayList();
-       historialOrdenes.forEach((orden) -> {
-           orden.getOrdenesPersonales().forEach((ordenPersonal) -> {
-        	   platosOrdenados.addAll(ordenPersonal.getPlatosOrdenados());
-           });
-       });
-       return platosOrdenados;
-   }
+		return platosMejorCalificadosPorTipoPlato;
+	}
 
-	
+	/**
+	 * Metodo que obtiene los platos que se han pedido con la cantidad de veces que
+	 * lo han sido
+	 *
+	 * @return
+	 */
+	public Map<Plato, Long> obtenerCantidadVecesPlatoOrdenado() {
+		return obtenerTodosPlatos().stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+	}
+
+	/**
+	 * Método que obtiene los platos con su respectiva calificación promedio
+	 * 
+	 * @return
+	 */
+	private Map<Plato, Double> obtenerPlatosConCalificacionPromedio() {
+		List<PlatoOrdenado> todosPlatosOrdenados = obtenerTodosPlatosOrdenados();
+		Map<Plato, Double> dishesWithAverageRate = todosPlatosOrdenados.stream().collect(Collectors
+				.groupingBy(PlatoOrdenado::getPlato, Collectors.averagingDouble(PlatoOrdenado::getCalificacion)));
+		return dishesWithAverageRate;
+	}
+
+	/**
+	 * Métodos que retorna una lista con todos los platos ordenados desde el inicio
+	 * de la simulación
+	 * 
+	 * @return
+	 */
+	private List<PlatoOrdenado> obtenerTodosPlatosOrdenados() {
+		List<PlatoOrdenado> platosOrdenados = new ArrayList<PlatoOrdenado>();
+		historialOrdenes.forEach((orden) -> {
+			orden.getOrdenesPersonales().forEach((ordenPersonal) -> {
+				platosOrdenados.addAll(ordenPersonal.getPlatosOrdenados());
+			});
+		});
+		return platosOrdenados;
+	}
+
+	/**
+	 * Método que retorna todos los platos que han sido ordenados, sin su
+	 * calificación
+	 * 
+	 * @return
+	 */
+	private List<Plato> obtenerTodosPlatos() {
+		return obtenerTodosPlatosOrdenados().stream().map(platoOrdenado -> platoOrdenado.getPlato())
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 *
+	 * Método que retorna el numero de ordenes por estrategia de pago
+	 * 
+	 * @return
+	 */
+	public Map<EstrategiaPago, Long> obtenerNumeroOrdenesPorEstrategiaPago() {
+		return historialOrdenes.stream()
+				.collect(Collectors.groupingBy(Orden::getEstrategiaPago, Collectors.counting()));
+	}
+
 }
