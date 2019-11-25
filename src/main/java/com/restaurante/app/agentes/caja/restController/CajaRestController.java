@@ -22,14 +22,10 @@ public class CajaRestController {
 		return Caja.getInstance().TotalAPagarPorMesa();
 	}
 
-	@GetMapping(value = "/Pagar")
+	@GetMapping(value = "/AgregarPago")
 	public void Pagar(@Valid @RequestBody Orden orden) {
 		Caja.getInstance().tipoDePago(orden);
 	}
-	
-	@GetMapping(value = "/AgregarPago")
-	public void Pagar(@Valid @RequestBody Pago pago) {
-		Caja.getInstance().agregarPago(pago);
-	}
+
 	
 }
