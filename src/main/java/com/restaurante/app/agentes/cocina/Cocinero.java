@@ -10,23 +10,33 @@ public class Cocinero {
 	private int id;
 	private int tiempoDescanso;
 	private boolean estaDisponible;
-	private int tiempoTrabajando;
+	private int tiempoTrabajando; // minutos
+	private boolean preparaPostres;
 
-	public Cocinero(int id, int tiempoDescanso) {
+	public Cocinero(int id, int tiempoDescanso, boolean preparaPostres) {
 		this.id = id;
 		this.tiempoDescanso = tiempoDescanso;
-		this.estaDisponible = false;
+		this.estaDisponible = true;
 		this.tiempoTrabajando = 0;
+		this.preparaPostres = preparaPostres;
 	}
 
 	public OrdenPersonal cocinarOrdenPersonal(OrdenPersonal ordenPersonal) {
 		for (PlatoOrdenado plato : ordenPersonal.getPlatosOrdenados()) {
 			if (!Cocina.congelador.estaOcupado()) {
+				Cocina.congelador.ocuparCongelador();
 				int tiempoPreparacion = generarTiempoPorPlato(plato.getPlato());
+				if (this.tiempoTrabajando >= 120) {
+					this.tiempoTrabajando = 0;
+					tiempoPreparacion += 10;
+				}
 				plato.setTiempoPreparacionReal(tiempoPreparacion);
+				plato.setEstaPreparado(true);
 				this.tiempoTrabajando += tiempoPreparacion;
+				Cocina.congelador.desocuparCongelador();
 			}
 		}
+		this.estaDisponible = true;
 		return ordenPersonal;
 	}
 
@@ -61,6 +71,22 @@ public class Cocinero {
 		this.estaDisponible = estaDisponible;
 	}
 
+	public int getTiempoTrabajando() {
+		return tiempoTrabajando;
+	}
+
+	public void setTiempoTrabajando(int tiempoTrabajando) {
+		this.tiempoTrabajando = tiempoTrabajando;
+	}
+
+	public boolean isPreparaPostres() {
+		return preparaPostres;
+	}
+
+	public void setPreparaPostres(boolean preparaPostres) {
+		this.preparaPostres = preparaPostres;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -75,7 +101,7 @@ public class Cocinero {
 	}
 
 	public static void main(String[] args) {
-		Cocinero cocinero = new Cocinero(1, 10);
+		Cocinero cocinero = new Cocinero(1, 10, false);
 		System.out.println(cocinero.generarTiempoPorPlato(new Plato("Este", TipoPlato.ENTRADA, 10, 10)));
 	}
 }
