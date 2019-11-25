@@ -37,7 +37,7 @@ public class MeseroRestController {
 	 * Método que agrega una orden proveniente del agente Cliente
 	 * @param orden
 	 */
-	@PostMapping("/{idMesero}/orden")
+	@PostMapping("/{idMesero}/agregarOrden")
     public Mesero agregarOrden(@RequestBody Orden orden, @PathVariable int idMesero) {
         return managerMeseros.agregarOrden(orden,idMesero);
     }

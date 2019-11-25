@@ -28,11 +28,16 @@ public class ManagerRestaurante {
 	private static ManagerRestaurante instance;
 
 	private ManagerRestaurante() {
+		
 		historialOrdenes = new ArrayList<>();
+		
+		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
+		this.cantidadVecesPlatoOrdenado = new HashMap<>();
+		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
 	}
 
 	public static ManagerRestaurante getInstance() {
-		if (instance != null) {
+		if (instance == null) {
 			instance = new ManagerRestaurante();
 		}
 		return instance;
@@ -42,13 +47,6 @@ public class ManagerRestaurante {
 		this.historialOrdenes.add(orden);
 	}
 
-	public ArrayList<Orden> getHistorialOrdenes() {
-		return historialOrdenes;
-	}
-
-	public void setHistorialOrdenes(ArrayList<Orden> historialOrdenes) {
-		this.historialOrdenes = historialOrdenes;
-	}
 	
 	/**
 	 * Método que genera las estadísticas solicitadas
@@ -145,6 +143,40 @@ public class ManagerRestaurante {
 	public Map<EstrategiaPago, Long> obtenerNumeroOrdenesPorEstrategiaPago() {
 		return historialOrdenes.stream()
 				.collect(Collectors.groupingBy(Orden::getEstrategiaPago, Collectors.counting()));
+	}
+	
+	//===================== GETTERS & SETTERS ============================
+	
+	public ArrayList<Orden> getHistorialOrdenes() {
+		return historialOrdenes;
+	}
+
+	public void setHistorialOrdenes(ArrayList<Orden> historialOrdenes) {
+		this.historialOrdenes = historialOrdenes;
+	}
+
+	public Map<Plato, Double> getPlatosMejorCalificadosPorTipoPlato() {
+		return platosMejorCalificadosPorTipoPlato;
+	}
+
+	public void setPlatosMejorCalificadosPorTipoPlato(Map<Plato, Double> platosMejorCalificadosPorTipoPlato) {
+		this.platosMejorCalificadosPorTipoPlato = platosMejorCalificadosPorTipoPlato;
+	}
+
+	public Map<Plato, Long> getCantidadVecesPlatoOrdenado() {
+		return cantidadVecesPlatoOrdenado;
+	}
+
+	public void setCantidadVecesPlatoOrdenado(Map<Plato, Long> cantidadVecesPlatoOrdenado) {
+		this.cantidadVecesPlatoOrdenado = cantidadVecesPlatoOrdenado;
+	}
+
+	public Map<EstrategiaPago, Long> getNumeroOrdenesPorEstrategiaPago() {
+		return numeroOrdenesPorEstrategiaPago;
+	}
+
+	public void setNumeroOrdenesPorEstrategiaPago(Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago) {
+		this.numeroOrdenesPorEstrategiaPago = numeroOrdenesPorEstrategiaPago;
 	}
 
 }

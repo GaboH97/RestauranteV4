@@ -6,13 +6,12 @@ import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurante.app.agentes.caja.Caja;
 import com.restaurante.app.agentes.caja.Pago;
-import com.restaurante.app.agentes.cliente.GestionarCliente;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.global.entities.Orden;
 
 @CrossOrigin(origins = { "http://localhost:4200" }) // anotacion necesaria
@@ -24,7 +23,7 @@ public class CajaRestController {
 		return Caja.getInstance().TotalAPagarPorMesa();
 	}
 
-	@GetMapping(value = "/AgregarPago")
+	@PostMapping(value = "/AgregarPago")
 	public void Pagar(@Valid @RequestBody Orden orden) {
 		Caja.getInstance().pagar(orden);
 	}

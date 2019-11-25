@@ -31,7 +31,6 @@ public class ManagerMeseros {
 		Mesero mesero = buscarMeseroPorId(idMesero);
 		if(mesero != null) {
 			mesero.tomarOrden(orden);
-			System.out.println(mesero);
 		}
 		return mesero;
 	}

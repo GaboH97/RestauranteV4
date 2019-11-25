@@ -27,24 +27,32 @@ public class RestauranteRestController {
 
 	@GetMapping("simular")
 	public void simular() {
-		Mesero mesero = obtenerMeseroDisponible();
-		Orden orden = generarOrden(mesero);
-		Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
-		orden.setMesa(mesa);
-		orden.setMesero(mesero);
-
-		Mesero meseroAux = agregarOrden(mesero.getId(), orden);
-
-		// Aquí se manda la orden a la cocina
 		
-		//mandarOrdenesACocina(meseroAux.getOrdenes());
+		for (int i = 0; i < 20; i++) {
+			Mesero mesero = obtenerMeseroDisponible();
+			Orden orden = generarOrden(mesero);
+			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
+			orden.setMesa(mesa);
+			orden.setMesero(mesero);
+
+			Mesero meseroAux = agregarOrden(mesero.getId(), orden);
+
+			// Aquí se manda la orden a la cocina
+			
+			mandarOrdenesACocina(meseroAux.getOrdenes());
+			
+			// comen (pasa el tiempo de consumo)
+			// aqui se libera la mesa
+			desocuparMesa(mesa);
+			// aqui se paga
+			
+			agregarPago(orden);
+			
+			//Agrega orden a historial de ordenes
+			agregarOrdenAHistorial(orden);
+		}
 		
-		// comen (pasa el tiempo de consumo)
-		// aqui se libera la mesa
-		// aqui se paga
-		liberarMesa(mesa);
-		//Agrega orden a historial de ordenes
-		agregarOrdenAHistorial(orden);
+		ManagerRestaurante.getInstance().getHistorialOrdenes().forEach(System.out::println);
 	}
 	
 	/**
@@ -55,17 +63,27 @@ public class RestauranteRestController {
 	 * @return Mesero que ha tomado esa orden
 	 */
 	private Mesero agregarOrden(int idMesero, Orden orden) {
-		String url = "http://localhost:8080/{idMesero}/agregarOrden}";
+		String url = "http://localhost:8080/api/meseros/{idMesero}/agregarOrden";
 		return restTemplate.postForObject(url, orden, Mesero.class, idMesero);
 	}
-
-	private void liberarMesa(Mesa mesa) {
+	
+	/**
+	 * Método que consume el servicio expuesto por el agente Mesa para desocupar una mesa con un ID
+	 * específico
+	 * 
+	 * @param mesa
+	 */
+	private void desocuparMesa(Mesa mesa) {
 		String url = "http://localhost:8080/liberarMesa/{idMesa}";
 		restTemplate.getForObject(url, Mesero.class, mesa.getId());
 	}
 	
+	/**
+	 * Método que envía las órdenes al agente cocina para que sean preparadas por los chefs
+	 * @param ordenes
+	 */
 	private void mandarOrdenesACocina(List<Orden> ordenes) {
-		String url = "http://localhost:8080/liberarMesa/{idMesa}";
+		String url = "http://localhost:8080/api/cocina/agregarListaOrdenesSinPreparar";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(ordenes,headers);
@@ -77,7 +95,7 @@ public class RestauranteRestController {
 	 * Método que consume el servicio expuesto por el agente Mesero para obtener un
 	 * mesero libre para que atienda una mesa
 	 * 
-	 * @return Mesero disponible para antender
+	 * @return Mesero disponible para atender
 	 */
 	private Mesero obtenerMeseroDisponible() {
 		String url = "http://localhost:8080/api/meseros/obtenerMeseroLibre";
@@ -95,17 +113,9 @@ public class RestauranteRestController {
 		return restTemplate.getForObject(url, Mesa.class, numeroClientes);
 	}
 
-	public List<Cliente> entradaClientes() {
-		String url = "http://localhost:8080/api/meseros/mesa";
-
-		ResponseEntity<List<Cliente>> respuesta = restTemplate.exchange(url, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Cliente>>() {
-				});
-		return respuesta.getBody();
-	}
-
 	/**
-	 * Método que genera una orden a tomar por un mesero
+	 * Método que consume el servicio expuesto por el agente Clientes, el cual internamente simula el arribo
+	 * de clientes, genera las órdenes personales y las agrupa en una orden grupal
 	 * 
 	 * @return
 	 */
@@ -114,7 +124,30 @@ public class RestauranteRestController {
 		return restTemplate.postForObject(url, mesero, Orden.class);
 	}
 	
+	/**
+	 * 
+	 * @param idMesa
+	 */
+	private void liberarMesa(Integer idMesa) {
+	String url = "http://localhost:8080/liberarMesa/{idMesa}";
+	restTemplate.getForObject(url, Orden.class, idMesa);
+
+	}
+	/**
+	 * 
+	 * @param orden
+	 */
+	private void agregarPago(Orden orden) {
+		String url = "http://localhost:8080/AgregarPago";
+		restTemplate.postForObject(url, orden, Orden.class);
+	}
+	
+	/**
+	 * 
+	 * @param orden
+	 */
 	private void agregarOrdenAHistorial(Orden orden) {
+	System.out.println(orden);
 		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
 	}
 }

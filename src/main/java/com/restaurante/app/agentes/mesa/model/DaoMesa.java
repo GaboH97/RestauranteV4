@@ -25,8 +25,10 @@ public class DaoMesa {
 	}
 	
 	public void liberarMesa(int idMesa) {
+		System.out.println(idMesa);
 		for (Mesa mesa : listaMesa) {
 			if(mesa.getId() == idMesa) {
+				System.out.println("JKHDJKASHDGDHASHASG");
 				mesa.desocupar();
 			}
 		}

@@ -31,6 +31,7 @@ public class Mesa {
     }
 
     public void desocupar() {
+    	System.out.println("DESOCUPANDO");
         this.disponible = true;
     }
 
