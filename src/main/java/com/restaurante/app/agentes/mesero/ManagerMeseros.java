@@ -21,10 +21,19 @@ public class ManagerMeseros {
 		setUp();
 	}
 	
-	public void agregarOrden(Orden orden) {
-		Mesero mesero = meseros.stream().findAny().orElse(null);
-		mesero.tomarOrden(orden);
-		System.out.println(mesero);
+	/**
+	 * 
+	 * @param orden Orden a tomar
+	 * @param idMesero ID del mesero
+	 * @return Mesero que ha tomado la orden
+	 */
+	public Mesero agregarOrden(Orden orden, int idMesero) {
+		Mesero mesero = buscarMeseroPorId(idMesero);
+		if(mesero != null) {
+			mesero.tomarOrden(orden);
+			System.out.println(mesero);
+		}
+		return mesero;
 	}
 	
 	
@@ -55,7 +64,7 @@ public class ManagerMeseros {
 		return ordenes;
 	}
 
-	public Mesero buscarMesero(int id) {
+	public Mesero buscarMeseroPorId(int id) {
 		return meseros.stream().filter(m -> m.getId() == id).findFirst().orElse(null);
 	}
 

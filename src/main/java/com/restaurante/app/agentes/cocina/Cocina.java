@@ -33,7 +33,7 @@ public class Cocina {
 
 	public ArrayList<Orden> cocinar() {
 		for (Orden orden : listaOrdenesAPreparar) {
-			for (OrdenPersonal ordenPersonal : orden.getPersonalOrders()) {
+			for (OrdenPersonal ordenPersonal : orden.getOrdenesPersonales()) {
 				Cocinero cocineroDisponible;
 				if (laOrdenContienePostres(ordenPersonal)) {
 					cocineroDisponible = listaCocineros.get(0);

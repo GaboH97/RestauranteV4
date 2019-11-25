@@ -103,7 +103,7 @@ public class GestionarCliente {
 	 * @param orden preparada servicio que entra al cliente
 	 */
 	public Orden calificarOrdenesPersonales(Orden orden) {
-		orden.getPersonalOrders().forEach(OrdenPersonal::calificarPlatos);
+		orden.getOrdenesPersonales().forEach(OrdenPersonal::calificarPlatos);
 		return orden;
 	}
 	

@@ -104,7 +104,7 @@ public class Orden {
 		this.mesa = mesa;
 	}
 
-	public ArrayList<OrdenPersonal> getPersonalOrders() {
+	public ArrayList<OrdenPersonal> getOrdenesPersonales() {
 		return ordenesPersonales;
 	}
 
