@@ -18,14 +18,14 @@ public class Caja {
 
 	private static Caja caja;
 
-	//metodo que permite obtener una instancia de la clase
+	// metodo que permite obtener una instancia de la clase
 	public static Caja getInstance() {
 		if (caja == null) {
 			caja = new Caja();
 		}
 		return caja;
 	}
-	
+
 	/**
 	 * total a pagar por pedido o mesa
 	 */
@@ -50,7 +50,7 @@ public class Caja {
 	 * UNO_POR_TODOS - One-for-everything // * // * @param workDay // * @param cash
 	 * //
 	 */
-	public void tipoDePago(Orden orden) {
+	public void pagar(Orden orden) {
 		switch (orden.getEstrategiaPago()) {
 		case AMERICANO:
 			orden.getOrdenesPersonales().stream().map((OrdenPersonal po) -> generarPago(po.getClient(),
@@ -72,6 +72,10 @@ public class Caja {
 
 	public void agregarPago(Pago pago) {
 		listaDePagos.add(pago);
+	}
+
+	public ArrayList<Pago> listaPagos() {
+		return listaDePagos;
 	}
 
 	/**

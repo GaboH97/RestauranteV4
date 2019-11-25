@@ -24,7 +24,12 @@ public class CajaRestController {
 
 	@GetMapping(value = "/AgregarPago")
 	public void Pagar(@Valid @RequestBody Orden orden) {
-		Caja.getInstance().tipoDePago(orden);
+		Caja.getInstance().pagar(orden);
+	}
+	
+	@GetMapping(value = "/ObtenerPagos")
+	public void listaPagos() {
+		Caja.getInstance().listaPagos();
 	}
 
 	
