@@ -1,5 +1,7 @@
 package com.restaurante.app.agentes.caja.restController;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,8 +30,8 @@ public class CajaRestController {
 	}
 	
 	@GetMapping(value = "/ObtenerPagos")
-	public void listaPagos() {
-		Caja.getInstance().listaPagos();
+	public ArrayList<Pago> listaPagos() {
+		return Caja.getInstance().listaPagos();
 	}
 
 	
