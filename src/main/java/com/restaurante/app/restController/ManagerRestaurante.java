@@ -21,16 +21,16 @@ public class ManagerRestaurante {
 
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
 
-	private Map<Plato, Long> cantidadVecesPlatoOrdenado;
+	private Map<String, Long> cantidadVecesPlatoOrdenado;
 
 	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
 
 	private static ManagerRestaurante instance;
 
 	private ManagerRestaurante() {
-		
+
 		historialOrdenes = new ArrayList<>();
-		
+
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		this.cantidadVecesPlatoOrdenado = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
@@ -47,7 +47,6 @@ public class ManagerRestaurante {
 		this.historialOrdenes.add(orden);
 	}
 
-	
 	/**
 	 * Método que genera las estadísticas solicitadas
 	 */
@@ -58,7 +57,9 @@ public class ManagerRestaurante {
 	}
 
 	/**
-	 * Método que obtiene los platos, en promedio, mejor calificados de acuerdo al tipo de plato
+	 * Método que obtiene los platos, en promedio, mejor calificados de acuerdo al
+	 * tipo de plato
+	 * 
 	 * @return
 	 */
 	private Map<Plato, Double> obtenerPlatosMejorCalificadosPorTipoPlato() {
@@ -91,8 +92,8 @@ public class ManagerRestaurante {
 	 *
 	 * @return
 	 */
-	public Map<Plato, Long> obtenerCantidadVecesPlatoOrdenado() {
-		return obtenerTodosPlatos().stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+	public Map<String, Long> obtenerCantidadVecesPlatoOrdenado() {
+		return obtenerTodosPlatos().stream().collect(Collectors.groupingBy(Plato::getNombre, Collectors.counting()));
 	}
 
 	/**
@@ -144,9 +145,9 @@ public class ManagerRestaurante {
 		return historialOrdenes.stream()
 				.collect(Collectors.groupingBy(Orden::getEstrategiaPago, Collectors.counting()));
 	}
-	
-	//===================== GETTERS & SETTERS ============================
-	
+
+	// ===================== GETTERS & SETTERS ============================
+
 	public ArrayList<Orden> getHistorialOrdenes() {
 		return historialOrdenes;
 	}
@@ -163,11 +164,11 @@ public class ManagerRestaurante {
 		this.platosMejorCalificadosPorTipoPlato = platosMejorCalificadosPorTipoPlato;
 	}
 
-	public Map<Plato, Long> getCantidadVecesPlatoOrdenado() {
+	public Map<String, Long> getCantidadVecesPlatoOrdenado() {
 		return cantidadVecesPlatoOrdenado;
 	}
 
-	public void setCantidadVecesPlatoOrdenado(Map<Plato, Long> cantidadVecesPlatoOrdenado) {
+	public void setCantidadVecesPlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
 		this.cantidadVecesPlatoOrdenado = cantidadVecesPlatoOrdenado;
 	}
 
