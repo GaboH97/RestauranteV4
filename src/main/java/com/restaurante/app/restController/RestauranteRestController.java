@@ -39,7 +39,6 @@ public class RestauranteRestController {
 			Orden orden = generarOrden(mesero);
 			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
 			orden.setMesa(mesa);
-			orden.setMesero(mesero);
 
 			Mesero meseroAux = agregarOrden(mesero.getId(), orden);
 

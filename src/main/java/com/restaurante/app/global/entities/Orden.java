@@ -8,7 +8,6 @@ import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 
-
 /**
  *
  * @author Gabriel Huertas <gabriel970826@gmail.com>
@@ -21,20 +20,17 @@ public class Orden {
 	private ArrayList<OrdenPersonal> ordenesPersonales;
 	private EstrategiaPago estrategiaPago;
 	private boolean estaPreparado;
-	
-	private Mesero mesero;
 
 	public Orden() {
 		this.id = ORDEN_COUNT++;
 		this.ordenesPersonales = new ArrayList<>();
 		this.estrategiaPago = escogerEstrategiaPago();
 	}
-	
+
 	public Orden(Mesero mesero) {
 		this.id = ORDEN_COUNT++;
 		this.ordenesPersonales = new ArrayList<>();
 		this.estrategiaPago = escogerEstrategiaPago();
-		this.mesero = mesero;
 	}
 
 	/**
@@ -80,14 +76,14 @@ public class Orden {
 	public Cliente obtenerClienteAzarPagar() {
 		return ordenesPersonales.get(new Random().nextInt(ordenesPersonales.size())).getClient();
 	}
-	
-    public boolean isEstaPreparado() {
+
+	public boolean isEstaPreparado() {
 		estaPreparado = ordenesPersonales.stream().allMatch(OrdenPersonal::isEstaPreparado);
 		return estaPreparado;
-    }
+	}
 
 	// ============ GETTERS & SETTERS ================
-    
+
 	public int getId() {
 		return id;
 	}
@@ -118,14 +114,6 @@ public class Orden {
 
 	public void setEstrategiaPago(EstrategiaPago estrategiaPago) {
 		this.estrategiaPago = estrategiaPago;
-	}
-	
-	public Mesero getMesero() {
-		return mesero;
-	}
-	
-	public void setMesero(Mesero mesero) {
-		this.mesero = mesero;
 	}
 
 	@Override
