@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
+import com.restaurante.app.global.config.NetConstants;
 import com.restaurante.app.global.entities.*;
 
 @RestController
@@ -162,7 +163,7 @@ public class RestauranteRestController {
 	 * @param orden
 	 */
 	private void agregarPago(Orden orden) {
-		String url = "http://localhost:8080/api/caja/AgregarPago";
+		String url = NetConstants.CAJA_URL_ENDPOINT+"api/caja/AgregarPago";
 		restTemplate.postForObject(url, orden, Orden.class);
 	}
 
