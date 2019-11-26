@@ -17,9 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.restaurante.app.agentes.caja.Pago;
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.NetConstants;
@@ -163,7 +165,7 @@ public class RestauranteRestController {
 	 * @param orden
 	 */
 	private void agregarPago(Orden orden) {
-		String url = NetConstants.CAJA_URL_ENDPOINT+"api/caja/AgregarPago";
+		String url = NetConstants.CAJA_URL_ENDPOINT + "api/caja/AgregarPago";
 		restTemplate.postForObject(url, orden, Orden.class);
 	}
 
@@ -196,4 +198,19 @@ public class RestauranteRestController {
 				ManagerRestaurante.getInstance().getNumeroOrdenesPorEstrategiaPago());
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
+
+	public ArrayList<Pago> obtenerPagos() {
+		String url = NetConstants.CAJA_URL_ENDPOINT + "api/caja/ObtenerPagos";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<Pago>>() {
+		}).getBody();
+	}
+	
+	@ResponseBody
+	@GetMapping("ObtenerListaPagos")
+	public ArrayList<Pago> obtenerListaPagos(){
+		return obtenerPagos();
+	}
+	
 }

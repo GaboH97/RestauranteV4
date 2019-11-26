@@ -6,7 +6,7 @@ public class NetConstants {
 	
 	private static final String HTTP_PREFIX = "http://";
 
-	public static final String MESERO_HOST_IP = "localhost";
+	public static final String MESERO_HOST_IP = "192.168.43.81";
 	public static final Integer MESERO_HOST_PORT = 8080;
 	public static final String COCINA_HOST_IP = "192.168.0.2";
 	public static final Integer COCINA_HOST_PORT = 8080;

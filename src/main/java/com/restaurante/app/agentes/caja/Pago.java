@@ -28,6 +28,9 @@ public class Pago {
 		this.estrategiaPago = estrategiaPago;
 		this.tipoPago = (Math.random() > 0.5) ? TipoPago.EFECTIVO : TipoPago.TARJETA_CREDITO;
 	}
+	
+	public Pago() {
+	}
 
 	public Cliente getCliente() {
 		return cliente;
