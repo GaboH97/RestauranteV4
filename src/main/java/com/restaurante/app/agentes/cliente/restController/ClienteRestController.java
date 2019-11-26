@@ -1,5 +1,7 @@
 package com.restaurante.app.agentes.cliente.restController;
 
+import java.awt.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.cliente.GestionarCliente;
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
@@ -74,5 +77,10 @@ public class ClienteRestController {
 //	public Mesero calificarMesero(@Valid @RequestBody Mesero mesero) {
 //		return gestionarCliente.calificarMesero(mesero);
 //	}
+	
+	@GetMapping(value = "/obtenerClientes")
+	public java.util.List<Cliente> obtenerClientes(){
+		return GestionarCliente.getInstance().obtenerClientes();
+	}
 	
 }

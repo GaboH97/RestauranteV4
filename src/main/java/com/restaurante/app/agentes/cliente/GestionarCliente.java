@@ -33,7 +33,13 @@ public class GestionarCliente {
 	 */
 	private Mesa mesa;
 	
+	/**
+	 * Atributo que representa la lista de clientes
+	 */
+	private List<Cliente> listClientes;
+	
 	private GestionarCliente() {
+		this.listClientes = new ArrayList<>();
 	}
 	
 	private static GestionarCliente instance;
@@ -87,6 +93,7 @@ public class GestionarCliente {
      * @return
      */
 	public ArrayList<OrdenPersonal> crearOrden(List<Cliente> clientes) {
+		this.listClientes.addAll(clientes);
 		this.numeroClientes = clientes.size();
 		ArrayList<OrdenPersonal> ordenesPersonales = new ArrayList<>();
 		
@@ -121,6 +128,14 @@ public class GestionarCliente {
 	
 	public Mesa getMesa() {
 		return mesa;
+	}
+
+	/**
+	 * Metodo enacargado de retornar los clientes en el restaurante
+	 * @return lista de clientes
+	 */
+	public List<Cliente> obtenerClientes() {
+		return listClientes;
 	}
 	
 	
