@@ -29,7 +29,7 @@ public class Cliente {
     public Cliente(int arrivalTime) {
         this.id = ID_CLIENTE++;
         this.nombre = "Cliente " + id;
-        this.tiempoConsumo = (int) (Math.random()*5+1); 
+        this.tiempoConsumo = (int) (Math.random()*11)+20; 
         this.tiempoLLegada = arrivalTime;
     }
 
