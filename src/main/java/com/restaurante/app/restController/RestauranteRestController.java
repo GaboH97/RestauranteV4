@@ -2,6 +2,7 @@ package com.restaurante.app.restController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,7 +38,7 @@ public class RestauranteRestController {
 	@GetMapping("simular")
 	public void simular() {
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 175; i++) {
 			Mesero mesero = obtenerMeseroDisponible();
 			Orden orden = generarOrden(mesero);
 			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
@@ -48,10 +49,12 @@ public class RestauranteRestController {
 			// Aquí se manda la orden a la cocina
 			mandarOrdenesACocina(meseroAux.getOrdenes());
 
-			// comen (pasa el tiempo de consumo)
-			obtenerOrdenesDeCocina();
+			// Aquí se pasa la orden a los clientes
+			ArrayList<Orden> ordenes = obtenerOrdenesDeCocina();
 
-			enviarOrdenesALosClientes();
+			// comen (pasa el tiempo de consumo)
+			ArrayList<Orden> ordenesConsumidas = llevarOrdenesAClientes(ordenes);
+
 			// aqui se libera la mesa
 			desocuparMesa(mesa);
 
@@ -65,8 +68,21 @@ public class RestauranteRestController {
 		ManagerRestaurante.getInstance().getHistorialOrdenes().forEach(System.out::println);
 	}
 
-	private void enviarOrdenesALosClientes() {
+	/**
+	 * Método que envía las órdenes consumidas provenientes del agente cocina
+	 * 
+	 * @param ordenes
+	 * @return
+	 */
+	private ArrayList<Orden> llevarOrdenesAClientes(ArrayList<Orden> ordenes) {
+		ArrayList<Orden> ordenesConsumidas = new ArrayList<>();
+		String url = NetConstants.CLIENTE_URL_ENDPOINT + "recibirOrden";
 
+		for (Orden orden : ordenes) {
+			Orden ordenConsumida = restTemplate.postForObject(url, orden, Orden.class);
+			ordenesConsumidas.add(ordenConsumida);
+		}
+		return ordenesConsumidas;
 	}
 
 	private ArrayList<Orden> obtenerOrdenesDeCocina() {
@@ -152,16 +168,6 @@ public class RestauranteRestController {
 
 	/**
 	 * 
-	 * @param idMesa
-	 */
-	private void liberarMesa(Integer idMesa) {
-		String url = "http://localhost:8080/api/mesa/liberarMesa/{idMesa}";
-		restTemplate.getForObject(url, Orden.class, idMesa);
-
-	}
-
-	/**
-	 * 
 	 * @param orden
 	 */
 	private void agregarPago(Orden orden) {
@@ -183,22 +189,30 @@ public class RestauranteRestController {
 	 */
 	@GetMapping("GenerarEstadisticas")
 	public ResponseEntity<?> generarEstadisticas() {
-		Map<String, Object> body = new HashMap<String, Object>();
 		ManagerRestaurante.getInstance().generarEstadisticas();
-		body.put("cantidadVecesPlatoOrdenado", ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado());
-		Map<String, Double> hashMap = new HashMap<>();
+		Map<String, Object> body = new HashMap<String, Object>();
 
-		Map<Plato, Double> c = ManagerRestaurante.getInstance().getPlatosMejorCalificadosPorTipoPlato();
-		for (Entry<Plato, Double> pair : c.entrySet()) {
-			hashMap.put(pair.getKey().getNombre(), pair.getValue());
-		}
+		body.put("cantidadVecesPlatoOrdenado",
+				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
 
-		body.put("platosMejorCalificadosPorTipoPlato", hashMap);
-		body.put("numeroOrdenesPorEstrategiaPago",
-				ManagerRestaurante.getInstance().getNumeroOrdenesPorEstrategiaPago());
-		body.put("gananciasTotales", obtenerGananciasTotales(obtenerPagos()));
-		
+//		Map<String, Double> hashMap = new HashMap<>();
+//
+//		Map<Plato, Double> c = ManagerRestaurante.getInstance().getPlatosMejorCalificadosPorTipoPlato();
+//		for (Entry<Plato, Double> pair : c.entrySet()) {
+//			hashMap.put(pair.getKey().getNombre(), pair.getValue());
+//		}
+//
+//		body.put("platosMejorCalificadosPorTipoPlato", hashMap);
+//		body.put("numeroOrdenesPorEstrategiaPago",
+//				ManagerRestaurante.getInstance().getNumeroOrdenesPorEstrategiaPago());
+//		body.put("gananciasTotales", obtenerGananciasTotales(obtenerPagos()));
+//		
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
+	}
+
+	private List<ReportePlatoOrdenado> convertirAReportePlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
+		return cantidadVecesPlatoOrdenado.entrySet().stream()
+				.map(e -> new ReportePlatoOrdenado(e.getKey(), e.getValue())).collect(Collectors.toList());
 	}
 
 	public ArrayList<Pago> obtenerPagos() {
@@ -208,15 +222,15 @@ public class RestauranteRestController {
 		return restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<Pago>>() {
 		}).getBody();
 	}
-	
+
 	@ResponseBody
 	@GetMapping("ObtenerListaPagos")
-	public ArrayList<Pago> obtenerListaPagos(){
+	public ArrayList<Pago> obtenerListaPagos() {
 		return obtenerPagos();
 	}
-	
+
 	private Double obtenerGananciasTotales(ArrayList<Pago> pagos) {
-        return pagos.stream().mapToDouble(Pago::getTotalOrden).sum();
-    }
-	
+		return pagos.stream().mapToDouble(Pago::getTotalOrden).sum();
+	}
+
 }
