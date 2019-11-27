@@ -1,6 +1,7 @@
 package com.restaurante.app.restController;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +29,7 @@ import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.NetConstants;
 import com.restaurante.app.global.entities.*;
 
+@CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/restaurante")
 public class RestauranteRestController {
@@ -37,7 +40,7 @@ public class RestauranteRestController {
 	@GetMapping("simular")
 	public void simular() {
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 30; i++) {
 			Mesero mesero = obtenerMeseroDisponible();
 			Orden orden = generarOrden(mesero);
 			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
@@ -165,7 +168,7 @@ public class RestauranteRestController {
 	 * @param orden
 	 */
 	private void agregarPago(Orden orden) {
-		String url = NetConstants.CAJA_URL_ENDPOINT + "api/caja/AgregarPago";
+		String url = "http://localhost:8080/api/caja/AgregarPago";
 		restTemplate.postForObject(url, orden, Orden.class);
 	}
 
@@ -202,7 +205,7 @@ public class RestauranteRestController {
 	}
 
 	public ArrayList<Pago> obtenerPagos() {
-		String url = NetConstants.CAJA_URL_ENDPOINT + "api/caja/ObtenerPagos";
+		String url =  "http://localhost:8080/api/caja/ObtenerPagos";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		return restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<Pago>>() {
