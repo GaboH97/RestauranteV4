@@ -196,6 +196,8 @@ public class RestauranteRestController {
 		body.put("platosMejorCalificadosPorTipoPlato", hashMap);
 		body.put("numeroOrdenesPorEstrategiaPago",
 				ManagerRestaurante.getInstance().getNumeroOrdenesPorEstrategiaPago());
+		body.put("gananciasTotales", obtenerGananciasTotales(obtenerPagos()));
+		
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 
@@ -212,5 +214,9 @@ public class RestauranteRestController {
 	public ArrayList<Pago> obtenerListaPagos(){
 		return obtenerPagos();
 	}
+	
+	private Double obtenerGananciasTotales(ArrayList<Pago> pagos) {
+        return pagos.stream().mapToDouble(Pago::getTotalOrden).sum();
+    }
 	
 }
