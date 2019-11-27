@@ -28,9 +28,7 @@ public class ManagerRestaurante {
 	private static ManagerRestaurante instance;
 
 	private ManagerRestaurante() {
-
-		historialOrdenes = new ArrayList<>();
-
+		this.historialOrdenes = new ArrayList<>();
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		this.cantidadVecesPlatoOrdenado = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
@@ -179,5 +177,4 @@ public class ManagerRestaurante {
 	public void setNumeroOrdenesPorEstrategiaPago(Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago) {
 		this.numeroOrdenesPorEstrategiaPago = numeroOrdenesPorEstrategiaPago;
 	}
-
 }
