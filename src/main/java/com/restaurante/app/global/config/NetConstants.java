@@ -5,23 +5,24 @@ import java.util.Arrays;
 public class NetConstants {
 	
 	private static final String HTTP_PREFIX = "http://";
+	private static final String LOCAL_HOST = "localhost";
 
-	public static final String MESERO_HOST_IP = "192.168.43.81";
+	public static final String MESERO_HOST_IP = LOCAL_HOST;//"192.168.43.81";
 	public static final Integer MESERO_HOST_PORT = 8080;
-	public static final String COCINA_HOST_IP = "192.168.0.2";
+	public static final String COCINA_HOST_IP = LOCAL_HOST;//"192.168.0.2";
 	public static final Integer COCINA_HOST_PORT = 8080;
-	public static final String CAJA_HOST_IP = "192.168.43.236";
+	public static final String CAJA_HOST_IP = LOCAL_HOST;//"192.168.43.236";
 	public static final Integer CAJA_HOST_PORT = 8080;
-	public static final String MESA_HOST_IP = "192.168.0.2";
+	public static final String MESA_HOST_IP = LOCAL_HOST;//"192.168.0.2";
 	public static final Integer MESA_HOST_PORT = 8080;
-	public static final String CLIENTE_HOST_IP = "192.168.0.2";
+	public static final String CLIENTE_HOST_IP = LOCAL_HOST;//"192.168.0.2";
 	public static final Integer CLIENTE_HOST_PORT = 8080;
 
-	public static final String MESERO_URL_ENDPOINT = buildURL(HTTP_PREFIX,MESERO_HOST_IP,":",String.valueOf(MESERO_HOST_PORT),"/");
-	public static final String COCINA_URL_ENDPOINT =buildURL(HTTP_PREFIX,COCINA_HOST_IP,":",String.valueOf(COCINA_HOST_PORT),"/");
-	public static final String CAJA_URL_ENDPOINT = buildURL(HTTP_PREFIX,CAJA_HOST_IP,":",String.valueOf(CAJA_HOST_PORT),"/");
-	public static final String MESA_URL_ENDPOINT = buildURL(HTTP_PREFIX,MESA_HOST_IP,":",String.valueOf(MESA_HOST_PORT),"/");
-	public static final String CLIENTE_URL_ENDPOINT = buildURL(HTTP_PREFIX,CLIENTE_HOST_IP,":",String.valueOf(CLIENTE_HOST_PORT),"/");
+	public static final String MESERO_URL_ENDPOINT = buildURL(HTTP_PREFIX,MESERO_HOST_IP,":",String.valueOf(MESERO_HOST_PORT),"/api/mesero/");
+	public static final String COCINA_URL_ENDPOINT =buildURL(HTTP_PREFIX,COCINA_HOST_IP,":",String.valueOf(COCINA_HOST_PORT),"/api/cocina/");
+	public static final String CAJA_URL_ENDPOINT = buildURL(HTTP_PREFIX,CAJA_HOST_IP,":",String.valueOf(CAJA_HOST_PORT),"/api/caja/");
+	public static final String MESA_URL_ENDPOINT = buildURL(HTTP_PREFIX,MESA_HOST_IP,":",String.valueOf(MESA_HOST_PORT),"/api/mesa/");
+	public static final String CLIENTE_URL_ENDPOINT = buildURL(HTTP_PREFIX,CLIENTE_HOST_IP,":",String.valueOf(CLIENTE_HOST_PORT),"/api/cliente/");
 	
 	
 	public static String buildURL(String...args) {

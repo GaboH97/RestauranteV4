@@ -41,7 +41,7 @@ public class RestauranteRestController {
 	@GetMapping("simular")
 	public void simular() {
 
-		for (int i = 0; i < 175; i++) {
+		for (int i = 0; i < 10; i++) {
 			Mesero mesero = obtenerMeseroDisponible();
 			Orden orden = generarOrden(mesero);
 			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
@@ -80,6 +80,7 @@ public class RestauranteRestController {
 	private ArrayList<Orden> llevarOrdenesAClientes(ArrayList<Orden> ordenes) {
 		ArrayList<Orden> ordenesConsumidas = new ArrayList<>();
 		String url = NetConstants.CLIENTE_URL_ENDPOINT + "recibirOrden";
+		System.out.println("LA URL "+url);
 
 		for (Orden orden : ordenes) {
 			Orden ordenConsumida = restTemplate.postForObject(url, orden, Orden.class);
@@ -89,7 +90,7 @@ public class RestauranteRestController {
 	}
 
 	private ArrayList<Orden> obtenerOrdenesDeCocina() {
-		String url = "http://localhost:8080//api/cocina/obtenerListaOrdenesPreparadas";
+		String url = NetConstants.COCINA_URL_ENDPOINT+"obtenerListaOrdenesPreparadas";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		return restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<Orden>>() {
@@ -104,7 +105,7 @@ public class RestauranteRestController {
 	 * @return Mesero que ha tomado esa orden
 	 */
 	private Mesero agregarOrden(int idMesero, Orden orden) {
-		String url = "http://localhost:8080/api/meseros/{idMesero}/agregarOrden";
+		String url = NetConstants.MESERO_URL_ENDPOINT+"{idMesero}/agregarOrden";
 		return restTemplate.postForObject(url, orden, Mesero.class, idMesero);
 	}
 
@@ -115,7 +116,7 @@ public class RestauranteRestController {
 	 * @param mesa
 	 */
 	private void desocuparMesa(Mesa mesa) {
-		String url = "http://localhost:8080/api/mesa/liberarMesa/{idMesa}";
+		String url = NetConstants.MESA_URL_ENDPOINT+"liberarMesa/{idMesa}";
 		restTemplate.getForObject(url, Mesero.class, mesa.getId());
 	}
 
@@ -126,7 +127,8 @@ public class RestauranteRestController {
 	 * @param ordenes
 	 */
 	private void mandarOrdenesACocina(List<Orden> ordenes) {
-		String url = "http://localhost:8080/api/cocina/agregarListaOrdenesSinPreparar";
+		String url = NetConstants.COCINA_URL_ENDPOINT+"agregarListaOrdenesSinPreparar";
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(ordenes, headers);
@@ -142,7 +144,7 @@ public class RestauranteRestController {
 	 * @return Mesero disponible para atender
 	 */
 	private Mesero obtenerMeseroDisponible() {
-		String url = "http://localhost:8080/api/meseros/obtenerMeseroLibre";
+		String url = NetConstants.MESERO_URL_ENDPOINT+"obtenerMeseroLibre";
 		return restTemplate.getForObject(url, Mesero.class);
 	}
 
@@ -153,7 +155,7 @@ public class RestauranteRestController {
 	 * @return
 	 */
 	private Mesa obtenerMesaDisponible(int numeroClientes) {
-		String url = "http://localhost:8080/api/mesa/obtenerMesaLibre/{numeroClientes}";
+		String url = NetConstants.MESA_URL_ENDPOINT+"obtenerMesaLibre/{numeroClientes}";
 		return restTemplate.getForObject(url, Mesa.class, numeroClientes);
 	}
 
@@ -165,12 +167,14 @@ public class RestauranteRestController {
 	 * @return
 	 */
 	private Orden generarOrden(Mesero mesero) {
-		String url = "http://localhost:8080/api/cliente/solicitarPedido";
+		String url = NetConstants.CLIENTE_URL_ENDPOINT+"solicitarPedido";
+		System.out.println(url);
 		return restTemplate.postForObject(url, mesero, Orden.class);
 	}
 
 	/**
-	 * 
+	 * Método que consume el servicio expuesto por el agente Caja el cual internamente
+	 * genera un pago con base en la orden enviada en el cuerpo de la peticion
 	 * @param orden
 	 */
 	private void agregarPago(Orden orden) {
@@ -179,20 +183,20 @@ public class RestauranteRestController {
 	}
 
 	/**
-	 * 
+	 * Método que agrega la orden procesada (pagada) al historial de órdenes
 	 * @param orden
 	 */
 	private void agregarOrdenAHistorial(Orden orden) {
-		System.out.println(orden);
 		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
 	}
 
 	/**
 	 * 
 	 */
-	@GetMapping("GenerarEstadisticas")
+	@GetMapping("generarEstadisticas")
 	public ResponseEntity<?> generarEstadisticas() {
 		ManagerRestaurante.getInstance().generarEstadisticas();
+		
 		Map<String, Object> body = new HashMap<String, Object>();
 
 		body.put("cantidadVecesPlatoOrdenado",
@@ -218,6 +222,12 @@ public class RestauranteRestController {
 				.map(e -> new ReportePlatoOrdenado(e.getKey(), e.getValue())).collect(Collectors.toList());
 	}
 
+	/**
+	 * Método que consume el servicio expuesto por el agente Caja que obtiene los pagos
+	 * realizados
+	 * 
+	 * @return
+	 */
 	public ArrayList<Pago> obtenerPagos() {
 		String url =  "http://localhost:8080/api/caja/ObtenerPagos";
 		HttpHeaders headers = new HttpHeaders();
@@ -227,11 +237,16 @@ public class RestauranteRestController {
 	}
 
 	@ResponseBody
-	@GetMapping("ObtenerListaPagos")
+	@GetMapping("ObtenerPagos")
 	public ArrayList<Pago> obtenerListaPagos() {
 		return obtenerPagos();
 	}
-
+	
+	/**
+	 * 
+	 * @param pagos
+	 * @return
+	 */
 	private Double obtenerGananciasTotales(ArrayList<Pago> pagos) {
 		return pagos.stream().mapToDouble(Pago::getTotalOrden).sum();
 	}

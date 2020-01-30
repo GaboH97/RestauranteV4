@@ -61,6 +61,7 @@ public class ManagerRestaurante {
 	 * @return
 	 */
 	private Map<Plato, Double> obtenerPlatosMejorCalificadosPorTipoPlato() {
+		
 		Map<Plato, Double> platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		Map<Plato, Double> platosOrdenados = obtenerPlatosConCalificacionPromedio();
 
@@ -73,7 +74,8 @@ public class ManagerRestaurante {
 			Map<Plato, Double> dishesPerType = platosOrdenados.entrySet().stream()
 					.filter((Map.Entry<Plato, Double> e) -> e.getKey().getTipoPlato().equals(tipoPlato))
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
+			
+			dishesPerType.forEach((k,v) -> System.out.println(k+": "+v));
 			// Get best selling dish
 			Map.Entry<Plato, Double> max = Collections.max(dishesPerType.entrySet(), Map.Entry.comparingByValue());
 
