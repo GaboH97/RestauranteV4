@@ -9,14 +9,24 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.restaurante.app.global.entities.DiaTrabajo;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.Plato;
 import com.restaurante.app.global.entities.PlatoOrdenado;
 import com.restaurante.app.global.entities.TipoPlato;
 
+
+/**
+ * 
+ * @author Gabriel Huertas
+ *
+ */
 public class ManagerRestaurante {
 
+	
+	private ArrayList<DiaTrabajo> diasTrabajo;
+	
 	private ArrayList<Orden> historialOrdenes;
 
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
@@ -44,6 +54,32 @@ public class ManagerRestaurante {
 	public void agregarOrdenAHistorial(Orden orden) {
 		this.historialOrdenes.add(orden);
 	}
+	
+ //======================== STATISTICS ===========================
+    
+	/**
+	 * 
+	 */
+    public List<Map<Plato, Long>> getBestSellingDishesPerDishType() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMasVendidoPorTipoPlato()).collect(Collectors.toList());
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<Map<Plato, Double>> getBestRatedDishesPerDishType() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMejorCalificadoPorTipoPlato()).collect(Collectors.toList());
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<Map<EstrategiaPago, Long>> getCountOfOrdersByPaymentStrategy() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerNumeroOrdenesPorEstrategiaPago()).collect(Collectors.toList());
+    }
+	
 
 	/**
 	 * Método que genera las estadísticas solicitadas
@@ -75,7 +111,6 @@ public class ManagerRestaurante {
 					.filter((Map.Entry<Plato, Double> e) -> e.getKey().getTipoPlato().equals(tipoPlato))
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 			
-			dishesPerType.forEach((k,v) -> System.out.println(k+": "+v));
 			// Get best selling dish
 			Map.Entry<Plato, Double> max = Collections.max(dishesPerType.entrySet(), Map.Entry.comparingByValue());
 
@@ -178,5 +213,13 @@ public class ManagerRestaurante {
 
 	public void setNumeroOrdenesPorEstrategiaPago(Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago) {
 		this.numeroOrdenesPorEstrategiaPago = numeroOrdenesPorEstrategiaPago;
+	}
+	
+	public ArrayList<DiaTrabajo> getDiasTrabajo() {
+		return diasTrabajo;
+	}
+	
+	public void setDiasTrabajo(ArrayList<DiaTrabajo> diasTrabajo) {
+		this.diasTrabajo = diasTrabajo;
 	}
 }

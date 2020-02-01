@@ -1,5 +1,10 @@
 package com.restaurante.app.global.entities;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class ReportePlatoOrdenado {
 
 	private String nombre;
