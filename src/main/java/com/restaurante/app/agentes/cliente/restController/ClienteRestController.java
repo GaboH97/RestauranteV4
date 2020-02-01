@@ -44,7 +44,6 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/solicitarPedido")
 	public Orden solicitarPedido(@Valid @RequestBody Mesero mesero) {
-		System.out.println("sadsadas");
 		Orden orden = GestionarCliente.getInstance().generarOrden();
 		//orden.setTable(GestionarCliente.getInstance().getMesa());
 		return orden;

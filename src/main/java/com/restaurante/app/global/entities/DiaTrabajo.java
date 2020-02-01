@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
  */
 public class DiaTrabajo {
 
+	//======================== ATTRIBUTES =================================
+	
 	private int id;
 	private static int WORKDAY_ID = 1;
 	private ArrayList<Orden> ordenes;
@@ -23,6 +25,13 @@ public class DiaTrabajo {
 	private Map<Plato, Long> platosConNumeroVecesOrdenado;
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
 	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
+	
+	public DiaTrabajo() {
+		platosConNumeroVecesOrdenado = new HashMap<Plato,Long>();
+		platosMejorCalificadosPorTipoPlato = new HashMap<Plato,Double>();
+		numeroOrdenesPorEstrategiaPago = new HashMap<EstrategiaPago,Long>();
+	}
+	
 	 
 	    /**
 	     * Método que retorna todos los platos ordenados en un día laboral.
@@ -42,6 +51,7 @@ public class DiaTrabajo {
 	    }
 	    
 	    /**
+	     * Método que genera las estadística con el plato y el número de veces que este fue ordenado
 	     * 
 	     * @return 
 	     */

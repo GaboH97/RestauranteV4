@@ -28,6 +28,7 @@ import com.restaurante.app.agentes.caja.Pago;
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.NetConstants;
+import com.restaurante.app.global.config.TimeConstants;
 import com.restaurante.app.global.entities.*;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -37,13 +38,15 @@ public class RestauranteRestController {
 
 	@Autowired
 	private RestTemplate restTemplate;
-
+	
 	@GetMapping("simular")
 	public void simular() {
-
-		for (int i = 0; i < 10; i++) {
+		
+		//Itera por el número de días a simular
+		for (int i = 0; i < TimeConstants.NUMERO_DIAS; i++) {
 			Mesero mesero = obtenerMeseroDisponible();
 			Orden orden = generarOrden(mesero);
+			
 			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
 			orden.setMesa(mesa);
 
@@ -80,7 +83,6 @@ public class RestauranteRestController {
 	private ArrayList<Orden> llevarOrdenesAClientes(ArrayList<Orden> ordenes) {
 		ArrayList<Orden> ordenesConsumidas = new ArrayList<>();
 		String url = NetConstants.CLIENTE_URL_ENDPOINT + "recibirOrden";
-		System.out.println("LA URL "+url);
 
 		for (Orden orden : ordenes) {
 			Orden ordenConsumida = restTemplate.postForObject(url, orden, Orden.class);
@@ -89,6 +91,10 @@ public class RestauranteRestController {
 		return ordenesConsumidas;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private ArrayList<Orden> obtenerOrdenesDeCocina() {
 		String url = NetConstants.COCINA_URL_ENDPOINT+"obtenerListaOrdenesPreparadas";
 		HttpHeaders headers = new HttpHeaders();
@@ -168,7 +174,6 @@ public class RestauranteRestController {
 	 */
 	private Orden generarOrden(Mesero mesero) {
 		String url = NetConstants.CLIENTE_URL_ENDPOINT+"solicitarPedido";
-		System.out.println(url);
 		return restTemplate.postForObject(url, mesero, Orden.class);
 	}
 
@@ -199,8 +204,8 @@ public class RestauranteRestController {
 		
 		Map<String, Object> body = new HashMap<String, Object>();
 
-		body.put("cantidadVecesPlatoOrdenado",
-				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
+//		body.put("cantidadVecesPlatoOrdenado",
+//				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
 
 //		Map<String, Double> hashMap = new HashMap<>();
 //
@@ -217,6 +222,13 @@ public class RestauranteRestController {
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 
+
+	
+	/**
+	 * 
+	 * @param cantidadVecesPlatoOrdenado
+	 * @return
+	 */
 	private List<ReportePlatoOrdenado> convertirAReportePlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
 		return cantidadVecesPlatoOrdenado.entrySet().stream()
 				.map(e -> new ReportePlatoOrdenado(e.getKey(), e.getValue())).collect(Collectors.toList());
@@ -228,7 +240,7 @@ public class RestauranteRestController {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Pago> obtenerPagos() {
+	public ArrayList<Pago> solicitarPagos() {
 		String url =  "http://localhost:8080/api/caja/ObtenerPagos";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -239,7 +251,7 @@ public class RestauranteRestController {
 	@ResponseBody
 	@GetMapping("ObtenerPagos")
 	public ArrayList<Pago> obtenerListaPagos() {
-		return obtenerPagos();
+		return solicitarPagos();
 	}
 	
 	/**

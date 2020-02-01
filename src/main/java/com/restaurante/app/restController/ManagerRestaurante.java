@@ -31,8 +31,6 @@ public class ManagerRestaurante {
 
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
 
-	private Map<String, Long> cantidadVecesPlatoOrdenado;
-
 	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
 
 	private static ManagerRestaurante instance;
@@ -40,7 +38,6 @@ public class ManagerRestaurante {
 	private ManagerRestaurante() {
 		this.historialOrdenes = new ArrayList<>();
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
-		this.cantidadVecesPlatoOrdenado = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
 	}
 
@@ -85,9 +82,9 @@ public class ManagerRestaurante {
 	 * Método que genera las estadísticas solicitadas
 	 */
 	public void generarEstadisticas() {
-		this.platosMejorCalificadosPorTipoPlato = obtenerPlatosMejorCalificadosPorTipoPlato();
-		this.cantidadVecesPlatoOrdenado = obtenerCantidadVecesPlatoOrdenado();
-		this.numeroOrdenesPorEstrategiaPago = obtenerNumeroOrdenesPorEstrategiaPago();
+//		this.platosMejorCalificadosPorTipoPlato = obtenerPlatosMejorCalificadosPorTipoPlato();
+//		this.cantidadVecesPlatoOrdenado = obtenerCantidadVecesPlatoOrdenado();
+//		this.numeroOrdenesPorEstrategiaPago = obtenerNumeroOrdenesPorEstrategiaPago();
 	}
 
 	/**
@@ -197,14 +194,6 @@ public class ManagerRestaurante {
 
 	public void setPlatosMejorCalificadosPorTipoPlato(Map<Plato, Double> platosMejorCalificadosPorTipoPlato) {
 		this.platosMejorCalificadosPorTipoPlato = platosMejorCalificadosPorTipoPlato;
-	}
-
-	public Map<String, Long> getCantidadVecesPlatoOrdenado() {
-		return cantidadVecesPlatoOrdenado;
-	}
-
-	public void setCantidadVecesPlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
-		this.cantidadVecesPlatoOrdenado = cantidadVecesPlatoOrdenado;
 	}
 
 	public Map<EstrategiaPago, Long> getNumeroOrdenesPorEstrategiaPago() {

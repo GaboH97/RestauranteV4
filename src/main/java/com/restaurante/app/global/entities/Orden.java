@@ -1,5 +1,6 @@
 package com.restaurante.app.global.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,23 +13,25 @@ import com.restaurante.app.agentes.mesero.Mesero;
  *
  * @author Gabriel Huertas <gabriel970826@gmail.com>
  */
-public class Orden {
+public class Orden implements Serializable{
 
-	private static int ORDEN_COUNT = 1;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private Mesa mesa;
 	private ArrayList<OrdenPersonal> ordenesPersonales;
 	private EstrategiaPago estrategiaPago;
 	private boolean estaPreparado;
 
-	public Orden() {
-		this.id = ORDEN_COUNT++;
-		this.ordenesPersonales = new ArrayList<>();
-		this.estrategiaPago = escogerEstrategiaPago();
-	}
-
-	public Orden(Mesero mesero) {
-		this.id = ORDEN_COUNT++;
+	
+	public Orden() {}
+	
+	public Orden(int id) {
+		this.id = id;
+		System.out.println("AQUI ENTRO");
 		this.ordenesPersonales = new ArrayList<>();
 		this.estrategiaPago = escogerEstrategiaPago();
 	}
@@ -119,13 +122,58 @@ public class Orden {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("Order ID: ").append(id).append(System.getProperty("line.separator"));
 		builder.append("Mesa: ").append(mesa).append(System.getProperty("line.separator")).append("Personal Orders: ")
 				.append(System.getProperty("line.separator"));
 
 		ordenesPersonales
-				.forEach(po -> builder.append("\t").append(po.toString()).append(System.getProperty("line.separator")));
+				.forEach(
+						po -> builder.append("\t").append(po.toString()).append(System.getProperty("line.separator"))
+						);
 		builder.append("Estrategia Pago: ").append(estrategiaPago).append(System.getProperty("line.separator"));
 		return builder.toString();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (estaPreparado ? 1231 : 1237);
+		result = prime * result + ((estrategiaPago == null) ? 0 : estrategiaPago.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((mesa == null) ? 0 : mesa.hashCode());
+		result = prime * result + ((ordenesPersonales == null) ? 0 : ordenesPersonales.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Orden other = (Orden) obj;
+		if (estaPreparado != other.estaPreparado)
+			return false;
+		if (estrategiaPago != other.estrategiaPago)
+			return false;
+		if (id != other.id)
+			return false;
+		if (mesa == null) {
+			if (other.mesa != null)
+				return false;
+		} else if (!mesa.equals(other.mesa))
+			return false;
+		if (ordenesPersonales == null) {
+			if (other.ordenesPersonales != null)
+				return false;
+		} else if (!ordenesPersonales.equals(other.ordenesPersonales))
+			return false;
+		return true;
+	}
+	
+	
 
 }

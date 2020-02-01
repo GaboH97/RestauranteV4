@@ -93,10 +93,6 @@ public class MeseroRestController {
 	    HttpEntity<Mesa> entity  = new HttpEntity<Mesa>(mesa, headers);
 	    
 	    ResponseEntity<Mesa> response = this.restTemplate.postForEntity(url, entity, Mesa.class);
-	    
-	    if(response.getStatusCode()== HttpStatus.CREATED) {
-	    	System.out.println(response.getBody());
-	    }
 
 	}
 	

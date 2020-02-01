@@ -9,7 +9,6 @@ import com.restaurante.app.global.entities.OrdenPersonal;
 
 public class Caja {
 
-	public Orden orden;
 	
 	public ArrayList<Pago> listaDePagos;
 
@@ -25,13 +24,6 @@ public class Caja {
 			caja = new Caja();
 		}
 		return caja;
-	}
-
-	/**
-	 * total a pagar por pedido o mesa
-	 */
-	public double TotalAPagarPorMesa() {
-		return orden.obtenerTotal();
 	}
 
 	/**

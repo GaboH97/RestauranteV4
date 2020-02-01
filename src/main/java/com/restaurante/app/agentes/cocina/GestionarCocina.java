@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.global.config.OrderSequence;
 import com.restaurante.app.global.entities.Carta;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
@@ -54,7 +55,6 @@ public class GestionarCocina {
 		this.cocina.agregarOrdenALaCola(generarOrden());
 		this.cocina.agregarOrdenALaCola(generarOrden());
 		this.cocina.cocinar();
-		System.out.println(this.cocina.getListaOrdenesPreparadas());
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class GestionarCocina {
 	 * @return
 	 */
 	public Orden generarOrden() {
-		Orden orden = new Orden();
+		Orden orden = new Orden(OrderSequence.ID_GENERATOR.getAndIncrement());
 		orden.setPersonalOrders(crearOrden(tiempoLlegada()));
 		return orden;
 	}
@@ -117,6 +117,6 @@ public class GestionarCocina {
 
 	public static void main(String[] args) {
 		GestionarCocina gestionarCocina = new GestionarCocina();
-		gestionarCocina.generarOrdenesPseudoaleatorias();
+		//gestionarCocina.generarOrdenesPseudoaleatorias();
 	}
 }

@@ -102,6 +102,5 @@ public class Cocinero {
 
 	public static void main(String[] args) {
 		Cocinero cocinero = new Cocinero(1, 10, false);
-		System.out.println(cocinero.generarTiempoPorPlato(new Plato("Este", TipoPlato.ENTRADA, 10, 10)));
 	}
 }
