@@ -11,7 +11,7 @@ public class Caja {
 
 	public Orden orden;
 	public ArrayList<Pago> listaDePagos;
-
+ 
 	public Caja() {
 		listaDePagos = new ArrayList<>();
 	}

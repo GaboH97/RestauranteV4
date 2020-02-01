@@ -38,7 +38,7 @@ public class GestionarCliente {
 	 */
 	private List<Cliente> listClientes;
 	
-	private GestionarCliente() {
+	public GestionarCliente() {
 		this.listClientes = new ArrayList<>();
 	}
 	

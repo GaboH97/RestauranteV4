@@ -36,7 +36,7 @@ public class Controller {
 	}
 	
 	//controlador privado para que no pueda ser accedido desde el exterior
-	private Controller() {
+	public Controller() {
 		daoMesa = new DaoMesa();
 	}
 	
