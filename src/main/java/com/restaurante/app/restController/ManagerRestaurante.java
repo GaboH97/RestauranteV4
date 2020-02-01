@@ -36,6 +36,7 @@ public class ManagerRestaurante {
 	private static ManagerRestaurante instance;
 
 	private ManagerRestaurante() {
+		this.diasTrabajo = new ArrayList<>();
 		this.historialOrdenes = new ArrayList<>();
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
@@ -50,6 +51,18 @@ public class ManagerRestaurante {
 
 	public void agregarOrdenAHistorial(Orden orden) {
 		this.historialOrdenes.add(orden);
+	}
+	
+	/**
+	 * Método que agrega una orden a
+	 * @param diaTrabajoID
+	 * @param orden
+	 */
+	public void agregarOrdenAHistorial(int diaTrabajoID, Orden orden) {
+		diasTrabajo.stream()
+		.filter(aux -> aux.getId() == diaTrabajoID)
+		.findFirst()
+		.ifPresent(dt -> dt.getOrdenes().add(orden));
 	}
 	
  //======================== STATISTICS ===========================

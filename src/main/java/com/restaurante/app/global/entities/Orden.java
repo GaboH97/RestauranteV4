@@ -7,7 +7,6 @@ import java.util.Random;
 import com.restaurante.app.agentes.cliente.Cliente;
 
 import com.restaurante.app.agentes.mesa.model.Mesa;
-import com.restaurante.app.agentes.mesero.Mesero;
 
 /**
  *
@@ -31,7 +30,6 @@ public class Orden implements Serializable{
 	
 	public Orden(int id) {
 		this.id = id;
-		System.out.println("AQUI ENTRO");
 		this.ordenesPersonales = new ArrayList<>();
 		this.estrategiaPago = escogerEstrategiaPago();
 	}

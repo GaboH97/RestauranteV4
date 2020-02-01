@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import org.apache.catalina.Manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -44,34 +45,43 @@ public class RestauranteRestController {
 		
 		//Itera por el número de días a simular
 		for (int i = 0; i < TimeConstants.NUMERO_DIAS; i++) {
-			Mesero mesero = obtenerMeseroDisponible();
-			Orden orden = generarOrden(mesero);
+			DiaTrabajo diaTrabajo = new DiaTrabajo();
+			ManagerRestaurante.getInstance().getDiasTrabajo().add(diaTrabajo);
 			
-			Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
-			orden.setMesa(mesa);
+			for (int j = 0; j < TimeConstants.DURACION_JORNADA; j++) {
+				Mesero mesero = obtenerMeseroDisponible();
+				Orden orden = generarOrden(mesero);
+				
+				Mesa mesa = obtenerMesaDisponible(orden.getOrdenesPersonales().size());
+				orden.setMesa(mesa);
 
-			Mesero meseroAux = agregarOrden(mesero.getId(), orden);
+				Mesero meseroAux = agregarOrden(mesero.getId(), orden);
 
-			// Aquí se manda la orden a la cocina
-			mandarOrdenesACocina(meseroAux.getOrdenes());
+				// Aquí se manda la orden a la cocina
+				mandarOrdenesACocina(meseroAux.getOrdenes());
 
-			// Aquí se pasa la orden a los clientes
-			ArrayList<Orden> ordenes = obtenerOrdenesDeCocina();
+				// Aquí se pasa la orden a los clientes
+				ArrayList<Orden> ordenes = obtenerOrdenesDeCocina();
 
-			// comen (pasa el tiempo de consumo)
-			ArrayList<Orden> ordenesConsumidas = llevarOrdenesAClientes(ordenes);
+				// comen (pasa el tiempo de consumo)
+				ArrayList<Orden> ordenesConsumidas = llevarOrdenesAClientes(ordenes);
 
-			// aqui se libera la mesa
-			desocuparMesa(mesa);
+				// aqui se libera la mesa
+				desocuparMesa(mesa);
 
-			// aqui se paga
-			agregarPago(orden);
+				// aqui se paga
+				agregarPago(orden);
 
-			// Agrega orden a historial de ordenes
-			agregarOrdenAHistorial(orden);
+				// Agrega orden a historial de ordenes
+				//agregarOrdenAHistorial(orden);
+				diaTrabajo.getOrdenes().add(orden);
+				System.out.println("perro");
+			}
+			diaTrabajo.obtenerEstadisticas();
+			ManagerRestaurante.getInstance().getDiasTrabajo().add(diaTrabajo);
 		}
+		ManagerRestaurante.getInstance().getDiasTrabajo().forEach(dt -> System.out.println(dt.getId()));
 
-		ManagerRestaurante.getInstance().getHistorialOrdenes().forEach(System.out::println);
 	}
 
 	/**
@@ -194,6 +204,14 @@ public class RestauranteRestController {
 	private void agregarOrdenAHistorial(Orden orden) {
 		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
 	}
+	
+	/**
+	 * Método que agrega la orden procesada (pagada) al historial de órdenes
+	 * @param orden
+	 */
+	private void agregarOrdenAHistorial(int diaTrabajoID,Orden orden) {
+		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
+	}
 
 	/**
 	 * 
@@ -203,9 +221,10 @@ public class RestauranteRestController {
 		ManagerRestaurante.getInstance().generarEstadisticas();
 		
 		Map<String, Object> body = new HashMap<String, Object>();
+		body.put("dias",ManagerRestaurante.getInstance().getDiasTrabajo());
 
 //		body.put("cantidadVecesPlatoOrdenado",
-//				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
+////				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
 
 //		Map<String, Double> hashMap = new HashMap<>();
 //
@@ -224,15 +243,15 @@ public class RestauranteRestController {
 
 
 	
-	/**
-	 * 
-	 * @param cantidadVecesPlatoOrdenado
-	 * @return
-	 */
-	private List<ReportePlatoOrdenado> convertirAReportePlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
-		return cantidadVecesPlatoOrdenado.entrySet().stream()
-				.map(e -> new ReportePlatoOrdenado(e.getKey(), e.getValue())).collect(Collectors.toList());
-	}
+//	/**
+//	 * 
+//	 * @param cantidadVecesPlatoOrdenado
+//	 * @return
+//	 */
+//	private List<ReportePlatoOrdenado> convertirAReportePlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
+//		return cantidadVecesPlatoOrdenado.entrySet().stream()
+//				.map(e -> new ReportePlatoOrdenado(e.getKey(), e.getValue())).collect(Collectors.toList());
+//	}
 
 	/**
 	 * Método que consume el servicio expuesto por el agente Caja que obtiene los pagos
