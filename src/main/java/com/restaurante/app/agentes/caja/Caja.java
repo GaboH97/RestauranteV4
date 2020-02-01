@@ -9,7 +9,7 @@ import com.restaurante.app.global.entities.OrdenPersonal;
 
 public class Caja {
 
-	public Orden orden;
+	
 	public ArrayList<Pago> listaDePagos;
  
 	public Caja() {
@@ -27,13 +27,6 @@ public class Caja {
 	}
 
 	/**
-	 * total a pagar por pedido o mesa
-	 */
-	public double TotalAPagarPorMesa() {
-		return orden.obtenerTotal();
-	}
-
-	/**
 	 *
 	 * @param cliente
 	 * @param orderTotal
@@ -45,24 +38,36 @@ public class Caja {
 	}
 
 	/**
-	 * // * Method that simulates an order payment according to an specific strategy
-	 * // * // * AMERICANO -> American Way TODOS_POR_TODO - All-for-Everything
-	 * UNO_POR_TODOS - One-for-everything // * // * @param workDay // * @param cash
-	 * //
+	 * Método que genera los pagos de acuerdo a la orden que entra por parámetro y en específico a
+	 * su estrategia de pago, así:
+	 * 
+	 * En modo AMERICANO, se genera un pago por cada orden personal de cada cliente por el valor que cada cual haya consumido
+	 * En modo TODOS POR TODO. se calcula el promedio a pagar entre todos los comensales y se agregan los respectivios pagos a la caja
+	 * En modo UNO POR TODOS, se elige al azar un cliente que paga por el valor acumulado de todas las órdenes personales de los
+	 * comensales y se registra un único pago 
+	 * 
+	 * @param orden
 	 */
 	public void pagar(Orden orden) {
 		switch (orden.getEstrategiaPago()) {
 		case AMERICANO:
-			orden.getOrdenesPersonales().stream().map((OrdenPersonal po) -> generarPago(po.getClient(),
-					po.obtenerPrecioTotal(), orden.getEstrategiaPago())).forEach(pago -> agregarPago(pago));
+			
+			orden.getOrdenesPersonales()
+			.stream()
+			.map((OrdenPersonal po) -> generarPago(po.getClient(),
+					po.obtenerPrecioTotal(), orden.getEstrategiaPago()))
+			.forEach(pago -> agregarPago(pago));
+			
 			break;
 		case TODOS_POR_TODO:
+			
 			double pagoPorCliente = orden.obtenerPromedioPagar();
 			orden.getOrdenesPersonales().stream()
 					.map((OrdenPersonal po) -> generarPago(po.getClient(), pagoPorCliente, orden.getEstrategiaPago()))
 					.forEach(pa -> agregarPago(pa));
 			break;
 		case UNO_POR_TODOS:
+			
 			Cliente clienteAPagar = obtenerClienteAPagar(orden);
 			Pago pago = generarPago(clienteAPagar, orden.obtenerTotal(), orden.getEstrategiaPago());
 			agregarPago(pago);
@@ -70,16 +75,20 @@ public class Caja {
 		}
 	}
 
+	/**
+	 * Método que agrega un pago a la lista de pagos
+	 * @param pago
+	 */
 	public void agregarPago(Pago pago) {
 		listaDePagos.add(pago);
 	}
-
+	
 	public ArrayList<Pago> listaPagos() {
 		return listaDePagos;
 	}
 
 	/**
-	 *
+	 * Método que selecciona al azar un cliente que va a pagar una orden (cuando la estrategia de pago sea UNO POR TODOS)
 	 * @return
 	 */
 	public Cliente obtenerClienteAPagar(Orden orden) {

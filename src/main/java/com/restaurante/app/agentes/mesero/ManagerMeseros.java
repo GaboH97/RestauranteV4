@@ -42,7 +42,9 @@ public class ManagerMeseros {
 	 */
 	public Mesero obtenerMeseroDisponible() {
 
-		List<Mesero> meserosDisponibles = meseros.stream().filter(m -> m.getEstado().equals(EstadoMesero.DISPONIBLE)).collect(Collectors.toList());
+		List<Mesero> meserosDisponibles = meseros.stream()
+				.filter(m -> m.getEstado().equals(EstadoMesero.DISPONIBLE))
+				.collect(Collectors.toList());
 		return meserosDisponibles.get(new Random().nextInt(meserosDisponibles.size()));
 	}
 
@@ -50,7 +52,10 @@ public class ManagerMeseros {
 	 * Metodo que crea dos instancias de mesero
 	 */
 	private void setUp() {
-		meseros.addAll(Arrays.asList(new Mesero("Pedro"), new Mesero("Camilo")));
+		meseros.addAll(Arrays.asList(
+				new Mesero("Pedro"),
+				new Mesero("Camilo"))
+				);
 	}
 
 	/**

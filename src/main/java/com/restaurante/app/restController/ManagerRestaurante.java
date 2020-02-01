@@ -9,28 +9,36 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.restaurante.app.global.entities.DiaTrabajo;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.Plato;
 import com.restaurante.app.global.entities.PlatoOrdenado;
 import com.restaurante.app.global.entities.TipoPlato;
 
+
+/**
+ * 
+ * @author Gabriel Huertas
+ *
+ */
 public class ManagerRestaurante {
 
+	
+	private ArrayList<DiaTrabajo> diasTrabajo;
+	
 	private ArrayList<Orden> historialOrdenes;
 
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
-
-	private Map<String, Long> cantidadVecesPlatoOrdenado;
 
 	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
 
 	private static ManagerRestaurante instance;
 
 	private ManagerRestaurante() {
+		this.diasTrabajo = new ArrayList<>();
 		this.historialOrdenes = new ArrayList<>();
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
-		this.cantidadVecesPlatoOrdenado = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
 	}
 
@@ -44,14 +52,52 @@ public class ManagerRestaurante {
 	public void agregarOrdenAHistorial(Orden orden) {
 		this.historialOrdenes.add(orden);
 	}
+	
+	/**
+	 * Método que agrega una orden a
+	 * @param diaTrabajoID
+	 * @param orden
+	 */
+	public void agregarOrdenAHistorial(int diaTrabajoID, Orden orden) {
+		diasTrabajo.stream()
+		.filter(aux -> aux.getId() == diaTrabajoID)
+		.findFirst()
+		.ifPresent(dt -> dt.getOrdenes().add(orden));
+	}
+	
+ //======================== STATISTICS ===========================
+    
+	/**
+	 * 
+	 */
+    public List<Map<Plato, Long>> getBestSellingDishesPerDishType() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMasVendidoPorTipoPlato()).collect(Collectors.toList());
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<Map<Plato, Double>> getBestRatedDishesPerDishType() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMejorCalificadoPorTipoPlato()).collect(Collectors.toList());
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<Map<EstrategiaPago, Long>> getCountOfOrdersByPaymentStrategy() {
+        return diasTrabajo.stream().map(wd -> wd.obtenerNumeroOrdenesPorEstrategiaPago()).collect(Collectors.toList());
+    }
+	
 
 	/**
 	 * Método que genera las estadísticas solicitadas
 	 */
 	public void generarEstadisticas() {
-		this.platosMejorCalificadosPorTipoPlato = obtenerPlatosMejorCalificadosPorTipoPlato();
-		this.cantidadVecesPlatoOrdenado = obtenerCantidadVecesPlatoOrdenado();
-		this.numeroOrdenesPorEstrategiaPago = obtenerNumeroOrdenesPorEstrategiaPago();
+//		this.platosMejorCalificadosPorTipoPlato = obtenerPlatosMejorCalificadosPorTipoPlato();
+//		this.cantidadVecesPlatoOrdenado = obtenerCantidadVecesPlatoOrdenado();
+//		this.numeroOrdenesPorEstrategiaPago = obtenerNumeroOrdenesPorEstrategiaPago();
 	}
 
 	/**
@@ -61,6 +107,7 @@ public class ManagerRestaurante {
 	 * @return
 	 */
 	private Map<Plato, Double> obtenerPlatosMejorCalificadosPorTipoPlato() {
+		
 		Map<Plato, Double> platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		Map<Plato, Double> platosOrdenados = obtenerPlatosConCalificacionPromedio();
 
@@ -73,7 +120,7 @@ public class ManagerRestaurante {
 			Map<Plato, Double> dishesPerType = platosOrdenados.entrySet().stream()
 					.filter((Map.Entry<Plato, Double> e) -> e.getKey().getTipoPlato().equals(tipoPlato))
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
+			
 			// Get best selling dish
 			Map.Entry<Plato, Double> max = Collections.max(dishesPerType.entrySet(), Map.Entry.comparingByValue());
 
@@ -162,19 +209,19 @@ public class ManagerRestaurante {
 		this.platosMejorCalificadosPorTipoPlato = platosMejorCalificadosPorTipoPlato;
 	}
 
-	public Map<String, Long> getCantidadVecesPlatoOrdenado() {
-		return cantidadVecesPlatoOrdenado;
-	}
-
-	public void setCantidadVecesPlatoOrdenado(Map<String, Long> cantidadVecesPlatoOrdenado) {
-		this.cantidadVecesPlatoOrdenado = cantidadVecesPlatoOrdenado;
-	}
-
 	public Map<EstrategiaPago, Long> getNumeroOrdenesPorEstrategiaPago() {
 		return numeroOrdenesPorEstrategiaPago;
 	}
 
 	public void setNumeroOrdenesPorEstrategiaPago(Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago) {
 		this.numeroOrdenesPorEstrategiaPago = numeroOrdenesPorEstrategiaPago;
+	}
+	
+	public ArrayList<DiaTrabajo> getDiasTrabajo() {
+		return diasTrabajo;
+	}
+	
+	public void setDiasTrabajo(ArrayList<DiaTrabajo> diasTrabajo) {
+		this.diasTrabajo = diasTrabajo;
 	}
 }

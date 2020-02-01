@@ -31,7 +31,6 @@ public class Mesa {
     }
 
     public void desocupar() {
-    	System.out.println("DESOCUPANDO");
         this.disponible = true;
     }
 
@@ -71,5 +70,7 @@ public class Mesa {
                 .append("Disponible?: ").append(disponible ? "Yes" : "No").append(System.getProperty("line.separator"));
         return builder.toString();
     }
+    
+    
 
 }

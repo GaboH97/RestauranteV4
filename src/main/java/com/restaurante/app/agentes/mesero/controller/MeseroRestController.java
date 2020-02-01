@@ -23,7 +23,7 @@ import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.entities.Orden;
 
 @RestController
-@RequestMapping("/api/meseros")
+@RequestMapping("/api/mesero")
 public class MeseroRestController {
 	
 	@Autowired
@@ -93,10 +93,6 @@ public class MeseroRestController {
 	    HttpEntity<Mesa> entity  = new HttpEntity<Mesa>(mesa, headers);
 	    
 	    ResponseEntity<Mesa> response = this.restTemplate.postForEntity(url, entity, Mesa.class);
-	    
-	    if(response.getStatusCode()== HttpStatus.CREATED) {
-	    	System.out.println(response.getBody());
-	    }
 
 	}
 	

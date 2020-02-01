@@ -20,11 +20,6 @@ import com.restaurante.app.global.entities.Orden;
 @RequestMapping("/api/caja")
 public class CajaRestController {
 
-	@GetMapping(value = "/totalPagoPorMesa")
-	public double totalPagoPorMesa() {
-		return Caja.getInstance().TotalAPagarPorMesa();
-	}
-
 	@PostMapping(value = "/AgregarPago")
 	public void Pagar(@Valid @RequestBody Orden orden) {
 		Caja.getInstance().pagar(orden);
