@@ -2,6 +2,8 @@ package com.restaurante.app.agentes.mesa.model;
 
 import java.util.ArrayList;
 
+import com.restaurante.app.global.entities.Mesa;
+
 public class DaoMesa {
 	private ArrayList<Mesa> listaMesa;
 

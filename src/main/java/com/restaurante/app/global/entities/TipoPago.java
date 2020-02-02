@@ -1,4 +1,4 @@
-package com.restaurante.app.agentes.caja;
+package com.restaurante.app.global.entities;
 
 /**
  * 

@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.restaurante.app.agentes.caja.Pago;
-
 /**
  * 
  * @author Gabriel Huertas
@@ -210,6 +208,12 @@ public class DiaTrabajo {
 				.map(e -> new ReporteCalificacionPlato(e.getKey(), e.getValue())).collect(Collectors.toList());
 	}
 
+	/**
+	 * Método que obtiene el total de ganancias en el día.
+	 * Este método se llama automáticamente al transformar la entidad en un JSON
+	 * 
+	 * @return
+	 */
 	public Double getTotalGanancias() {
 		return pagos.stream().collect(Collectors.summingDouble(Pago::getTotalOrden));
 	}

@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.ManagerMeseros;
 import com.restaurante.app.agentes.mesero.Mesero;
+import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 
 @RestController

@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.restaurante.app.agentes.mesa.controller.Controller;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.Sequences;
+import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
 

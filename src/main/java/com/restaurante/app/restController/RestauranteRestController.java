@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.restaurante.app.agentes.caja.Pago;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.NetConstants;
 import com.restaurante.app.global.config.Sequences;
@@ -225,24 +223,8 @@ public class RestauranteRestController {
 	@GetMapping("generarEstadisticas")
 	public ResponseEntity<?> generarEstadisticas() {
 		ManagerRestaurante.getInstance().generarEstadisticas();
-		
 		Map<String, Object> body = new HashMap<String, Object>();
 		body.put("dias",ManagerRestaurante.getInstance().getDiasTrabajo());
-
-//		body.put("cantidadVecesPlatoOrdenado",
-////				convertirAReportePlatoOrdenado(ManagerRestaurante.getInstance().getCantidadVecesPlatoOrdenado()));
-
-//		Map<String, Double> hashMap = new HashMap<>();
-//
-//		Map<Plato, Double> c = ManagerRestaurante.getInstance().getPlatosMejorCalificadosPorTipoPlato();
-//		for (Entry<Plato, Double> pair : c.entrySet()) {
-//			hashMap.put(pair.getKey().getNombre(), pair.getValue());
-//		}
-//
-//		body.put("platosMejorCalificadosPorTipoPlato", hashMap);
-//		body.put("numeroOrdenesPorEstrategiaPago",
-//				ManagerRestaurante.getInstance().getNumeroOrdenesPorEstrategiaPago());
-//		body.put("gananciasTotales", obtenerGananciasTotales(obtenerPagos()));
 //		
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}

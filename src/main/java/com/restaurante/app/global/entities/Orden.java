@@ -6,8 +6,6 @@ import java.util.Random;
 
 import com.restaurante.app.agentes.cliente.Cliente;
 
-import com.restaurante.app.agentes.mesa.model.Mesa;
-
 /**
  *
  * @author Gabriel Huertas <gabriel970826@gmail.com>

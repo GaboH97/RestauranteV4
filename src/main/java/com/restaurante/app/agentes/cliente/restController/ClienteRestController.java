@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.cliente.GestionarCliente;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
+import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 /**
  * Clase encargada de la gestion de los servicios de cliente

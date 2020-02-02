@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.restaurante.app.agentes.mesa.controller.Controller;
-import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.global.entities.Mesa;
 
 @SpringBootTest
 public class AgenteMesaTest {

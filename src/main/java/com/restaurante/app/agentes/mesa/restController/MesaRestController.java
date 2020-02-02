@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurante.app.agentes.mesa.controller.Controller;
-import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.global.entities.Mesa;
 
 /**
  * Servicios relacionados con el agente mesa.

@@ -7,6 +7,7 @@ import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
+import com.restaurante.app.global.entities.Pago;
 
 public class Caja {
 

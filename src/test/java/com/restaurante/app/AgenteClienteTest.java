@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.restaurante.app.agentes.cliente.GestionarCliente;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.global.config.Sequences;
+import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 
 @SpringBootTest

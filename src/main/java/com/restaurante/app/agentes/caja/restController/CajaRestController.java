@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurante.app.agentes.caja.Caja;
-import com.restaurante.app.agentes.caja.Pago;
 import com.restaurante.app.global.entities.Orden;
+import com.restaurante.app.global.entities.Pago;
 
 @CrossOrigin(origins = { "http://localhost:4200" }) // anotacion necesaria
 @RestController()

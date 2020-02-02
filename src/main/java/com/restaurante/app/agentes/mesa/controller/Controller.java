@@ -3,8 +3,8 @@ package com.restaurante.app.agentes.mesa.controller;
 import java.util.ArrayList;
 
 import com.restaurante.app.agentes.mesa.model.DaoMesa;
-import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.global.config.Sequences;
+import com.restaurante.app.global.entities.Mesa;
 
 public class Controller {
 	

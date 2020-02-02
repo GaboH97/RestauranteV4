@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.restaurante.app.agentes.caja;
+package com.restaurante.app.global.entities;
 
 import com.restaurante.app.agentes.cliente.Cliente;
-import com.restaurante.app.global.entities.EstrategiaPago;
 
 /**
  *
