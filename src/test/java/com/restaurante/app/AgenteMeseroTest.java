@@ -35,10 +35,10 @@ public class AgenteMeseroTest {
 
 		// se arma la lista de ordenes a preparar
 		ArrayList<Orden> listaOrdenApreparar = new ArrayList<>();
-		Orden orden = new Orden(new Mesero("Juan Perez"));
+		//Orden orden = new Orden(new Mesero("Juan Perez"));
 
 		Mesero mesero1 = new Mesero("Nicolas");
-		managerMesero.agregarOrden(orden, mesero1.getId());
+		//managerMesero.agregarOrden(orden, mesero1.getId());
 
 	}
 
@@ -54,12 +54,11 @@ public class AgenteMeseroTest {
 
 		// se arma la lista de ordenes a preparar
 		ArrayList<Orden> listaOrdenApreparar = new ArrayList<>();
-		Orden orden = new Orden(new Mesero("Juan Perez"));
+//		Orden orden = new Orden(new Mesero("Juan Perez"));
 
 		Mesero mesero1 = new Mesero("Nicolas");
-		managerMesero.agregarOrden(orden, mesero1.getId());
+//		managerMesero.agregarOrden(orden, mesero1.getId());
 	
-		
 		// Validacion
 		assertThat(managerMesero.obtenerOrdenes()).isEqualTo(1);
 	}

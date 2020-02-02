@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.mesa.model.Mesa;
-import com.restaurante.app.global.config.OrderSequence;
+import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.entities.Carta;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
@@ -63,7 +63,7 @@ public class GestionarCocina {
 	 * @return
 	 */
 	public Orden generarOrden() {
-		Orden orden = new Orden(OrderSequence.ID_GENERATOR.getAndIncrement());
+		Orden orden = new Orden(Sequences.ORDEN_ID.getAndIncrement());
 		orden.setPersonalOrders(crearOrden(tiempoLlegada()));
 		return orden;
 	}
@@ -112,7 +112,7 @@ public class GestionarCocina {
 
 	public List<Cliente> llegadaClientes(int arrivalTime) {
 		return IntStream.rangeClosed(1, new Random().nextInt(Mesa.CAPACIDAD_MAXIMA) + 1)
-				.mapToObj(x -> new Cliente(arrivalTime)).collect(Collectors.toList());
+				.mapToObj(x -> new Cliente(Sequences.CLIENTE_ID.getAndIncrement(),arrivalTime)).collect(Collectors.toList());
 	}
 
 	public static void main(String[] args) {

@@ -3,6 +3,7 @@ package com.restaurante.app.agentes.caja;
 import java.util.ArrayList;
 import java.util.Random;
 import com.restaurante.app.agentes.cliente.Cliente;
+import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;
@@ -34,7 +35,7 @@ public class Caja {
 	 * @return
 	 */
 	public Pago generarPago(Cliente cliente, double orderTotal, EstrategiaPago estrategiaPago) {
-		return new Pago(cliente, orderTotal, estrategiaPago);
+		return new Pago(Sequences.PAGO_ID.getAndIncrement(),cliente, orderTotal, estrategiaPago);
 	}
 
 	/**
@@ -93,5 +94,9 @@ public class Caja {
 	 */
 	public Cliente obtenerClienteAPagar(Orden orden) {
 		return orden.getOrdenesPersonales().get(new Random().nextInt(orden.getOrdenesPersonales().size())).getClient();
+	}
+	
+	public void limpiarHistorialPagos() {
+		this.listaDePagos.clear();
 	}
 }

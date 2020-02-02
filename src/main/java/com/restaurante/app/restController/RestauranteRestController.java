@@ -29,6 +29,7 @@ import com.restaurante.app.agentes.caja.Pago;
 import com.restaurante.app.agentes.mesa.model.Mesa;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.config.NetConstants;
+import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.config.TimeConstants;
 import com.restaurante.app.global.entities.*;
 
@@ -45,8 +46,8 @@ public class RestauranteRestController {
 		
 		//Itera por el número de días a simular
 		for (int i = 0; i < TimeConstants.NUMERO_DIAS; i++) {
-			DiaTrabajo diaTrabajo = new DiaTrabajo();
-			ManagerRestaurante.getInstance().getDiasTrabajo().add(diaTrabajo);
+			
+			DiaTrabajo diaTrabajo = new DiaTrabajo(Sequences.DIA_TRABAJO_ID.getAndIncrement());
 			
 			for (int j = 0; j < TimeConstants.DURACION_JORNADA; j++) {
 				Mesero mesero = obtenerMeseroDisponible();
@@ -74,9 +75,14 @@ public class RestauranteRestController {
 
 				// Agrega orden a historial de ordenes
 				//agregarOrdenAHistorial(orden);
-				diaTrabajo.getOrdenes().add(orden);
-				System.out.println("perro");
+				diaTrabajo.archivarOrden(orden);
+				
 			}
+			
+			//Aquí debe hacer llamado a la caja para obtener todos los pagos
+			
+			ArrayList<Pago> pagos = solicitarPagos();
+			pagos.forEach(pago -> diaTrabajo.archivarPago(pago));
 			diaTrabajo.obtenerEstadisticas();
 			ManagerRestaurante.getInstance().getDiasTrabajo().add(diaTrabajo);
 		}
@@ -260,7 +266,7 @@ public class RestauranteRestController {
 	 * @return
 	 */
 	public ArrayList<Pago> solicitarPagos() {
-		String url =  "http://localhost:8080/api/caja/ObtenerPagos";
+		String url =  NetConstants.CAJA_URL_ENDPOINT+"ObtenerPagos";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		return restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<Pago>>() {

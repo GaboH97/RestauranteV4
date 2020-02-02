@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.restaurante.app.agentes.mesa.model.DaoMesa;
 import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.global.config.Sequences;
 
 public class Controller {
 	
@@ -19,7 +20,7 @@ public class Controller {
 	
 	public void generarMesas() {
 		for (int i = 0; i < 14; i++) {
-			daoMesa.addMesa(new Mesa(1, 1, Mesa.CAPACIDAD_MAXIMA));
+			daoMesa.addMesa(new Mesa(Sequences.MESA_ID.getAndIncrement(),1, 1, Mesa.CAPACIDAD_MAXIMA));
 		}
 	}
 //patron singleton------------------------------

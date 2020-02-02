@@ -13,7 +13,6 @@ import com.restaurante.app.global.entities.TipoPlato;
  */
 public class Cliente {
 
-    private static int ID_CLIENTE = 1;
     private int id;
     private String nombre;
     private int tiempoLLegada;
@@ -26,8 +25,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int arrivalTime) {
-        this.id = ID_CLIENTE++;
+    public Cliente(int id,int arrivalTime) {
+        this.id = id;
         this.nombre = "Cliente " + id;
         this.tiempoConsumo = (int) (Math.random()*11)+20; 
         this.tiempoLLegada = arrivalTime;

@@ -22,13 +22,15 @@ public class CajaRestController {
 
 	@PostMapping(value = "/AgregarPago")
 	public void Pagar(@Valid @RequestBody Orden orden) {
+		System.out.println("Aqui entra");
 		Caja.getInstance().pagar(orden);
 	}
 	
 	@GetMapping(value = "/ObtenerPagos")
 	public ArrayList<Pago> listaPagos() {
-		return Caja.getInstance().listaPagos();
+		ArrayList<Pago> pagos = new ArrayList<>(Caja.getInstance().listaPagos());
+		System.out.println(pagos);
+		Caja.getInstance().limpiarHistorialPagos();
+		return pagos;
 	}
-
-	
 }

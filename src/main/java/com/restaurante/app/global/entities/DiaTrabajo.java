@@ -3,11 +3,14 @@ package com.restaurante.app.global.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.restaurante.app.agentes.caja.Pago;
 
 /**
  * 
@@ -19,21 +22,31 @@ public class DiaTrabajo {
 	// ======================== ATTRIBUTES =================================
 
 	private int id;
-	private static int DIA_TRABAJO_ID = 1;
 	private ArrayList<Orden> ordenes;
+	
+	private ArrayList<Pago> pagos;
 
 	private List<ReporteOrdenesPlato> platosConNumeroVecesOrdenado;
 	private List<ReporteCalificacionPlato> platosMejorCalificadosPorTipoPlato;
 	private List<ReporteTipoPlatoOrdenado> numeroOrdenesPorEstrategiaPago;
 
-	public DiaTrabajo() {
-		this.id = DIA_TRABAJO_ID++;
+	public DiaTrabajo(int id) {
+		this.id = id;
 		this.ordenes = new ArrayList<>();
+		this.pagos = new ArrayList<>();
 		platosConNumeroVecesOrdenado = new ArrayList<>();
 		platosMejorCalificadosPorTipoPlato = new ArrayList<>();
 		numeroOrdenesPorEstrategiaPago =  new ArrayList<>();
 	}
-
+	
+	public void archivarOrden(Orden orden) {
+		this.ordenes.add(orden);
+	}
+	
+	public void archivarPago(Pago pago) {
+		this.pagos.add(pago);
+	}
+	
 	/**
 	 * Método que retorna todos los platos ordenados en un día laboral.
 	 * 
@@ -197,6 +210,11 @@ public class DiaTrabajo {
 				.map(e -> new ReporteCalificacionPlato(e.getKey(), e.getValue())).collect(Collectors.toList());
 	}
 
+	public Double getTotalGanancias() {
+		return pagos.stream().collect(Collectors.summingDouble(Pago::getTotalOrden));
+	}
+	
+	
 	// ======================== GETTERS & SETTERS ===============================
 
 	/**
@@ -270,5 +288,21 @@ public class DiaTrabajo {
 	public void setNumeroOrdenesPorEstrategiaPago(List<ReporteTipoPlatoOrdenado> numeroOrdenesPorEstrategiaPago) {
 		this.numeroOrdenesPorEstrategiaPago = numeroOrdenesPorEstrategiaPago;
 	}
+
+	/**
+	 * @return the pagos
+	 */
+	public ArrayList<Pago> getPagos() {
+		return pagos;
+	}
+
+	/**
+	 * @param pagos the pagos to set
+	 */
+	public void setPagos(ArrayList<Pago> pagos) {
+		this.pagos = pagos;
+	}
+	
+	
 	
 }
