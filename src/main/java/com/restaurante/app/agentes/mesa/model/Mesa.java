@@ -1,10 +1,12 @@
 package com.restaurante.app.agentes.mesa.model;
 
+import maquinaDelTiempo.MaquinaDeltiempo;
+
 /**
  *
  * @author Lenovo
  */
-public class Mesa {
+public class Mesa{
 
     public static final int CAPACIDAD_MAXIMA = 5;
 
