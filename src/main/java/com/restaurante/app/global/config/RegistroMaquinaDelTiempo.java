@@ -1,17 +1,22 @@
-package maquinaDelTiempo;
+package com.restaurante.app.global.config;
 
 /**
  * Clase que determina los registros de la maquina del tiempo en los cuales se determina
- * que tipo de agente se va a pintar, por cuanto tiempo y el estado del agente.
+ * qué tipo de agente se va a pintar, por cuánto tiempo y el estado del agente.
+ * 
  * @author Cesar
  *
  */
 public class RegistroMaquinaDelTiempo {
 	
-	private Identificadores identificador; //servira para saber identificar el tipo de agente 
-	private float instanteTiempoInicio; //establece cuando se empezara a pintar el agente
-	private float instanteTiempoFin;//establece cuando se dejara de pintar el agente
-	private Object estadoDelAgente;//establece el estado del agente, esto para saber como debe ser pintado si es que tiene que ser pintado
+	//servira para saber identificar el tipo de agente
+	private Identificadores identificador;
+	//establece cuando se empezara a pintar el agente
+	private float instanteTiempoInicio; 
+	//establece cuando se dejara de pintar el agente
+	private float instanteTiempoFin;
+	//establece el estado del agente, esto para saber como debe ser pintado si es que tiene que ser pintado
+	private Object estadoDelAgente;
 	
 	public RegistroMaquinaDelTiempo(Identificadores identificador, float instanteTiempoInicio,
 			float duracion, Object estadoDelAgente) {

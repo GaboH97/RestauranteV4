@@ -5,8 +5,6 @@
  */
 package com.restaurante.app.global.entities;
 
-import com.restaurante.app.agentes.cliente.Cliente;
-
 /**
  *
  * @author Lenovo

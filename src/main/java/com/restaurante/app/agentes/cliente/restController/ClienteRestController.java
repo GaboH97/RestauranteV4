@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.cliente.GestionarCliente;
 import com.restaurante.app.agentes.mesero.Mesero;
+import com.restaurante.app.global.config.MaquinaDelTiempo;
+import com.restaurante.app.global.entities.Cliente;
 import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 /**
@@ -27,6 +28,7 @@ import com.restaurante.app.global.entities.Orden;
 @RestController()
 @RequestMapping("/api/cliente")
 public class ClienteRestController {
+	
 
 	/**
 	 * Cuando llega el cliente o los clientes estos seleccionan la mesa

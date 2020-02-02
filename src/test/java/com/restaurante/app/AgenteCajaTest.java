@@ -8,9 +8,9 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.restaurante.app.agentes.caja.Caja;
-import com.restaurante.app.agentes.cliente.Cliente;
 import com.restaurante.app.agentes.mesero.Mesero;
 import com.restaurante.app.global.entities.Carta;
+import com.restaurante.app.global.entities.Cliente;
 import com.restaurante.app.global.entities.Mesa;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;

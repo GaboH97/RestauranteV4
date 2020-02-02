@@ -2,8 +2,9 @@ package com.restaurante.app.agentes.caja;
 
 import java.util.ArrayList;
 import java.util.Random;
-import com.restaurante.app.agentes.cliente.Cliente;
+
 import com.restaurante.app.global.config.Sequences;
+import com.restaurante.app.global.entities.Cliente;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
 import com.restaurante.app.global.entities.OrdenPersonal;

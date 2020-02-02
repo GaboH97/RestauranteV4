@@ -6,9 +6,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.restaurante.app.global.config.MaquinaDelTiempo;
+import com.restaurante.app.global.config.RegistroMaquinaDelTiempo;
 import com.restaurante.app.global.entities.DiaTrabajo;
 import com.restaurante.app.global.entities.EstrategiaPago;
 import com.restaurante.app.global.entities.Orden;
@@ -16,37 +20,29 @@ import com.restaurante.app.global.entities.Plato;
 import com.restaurante.app.global.entities.PlatoOrdenado;
 import com.restaurante.app.global.entities.TipoPlato;
 
-
 /**
  * 
  * @author Gabriel Huertas
  *
  */
+@Component
 public class ManagerRestaurante {
 
 	
 	private ArrayList<DiaTrabajo> diasTrabajo;
 	
 	private ArrayList<Orden> historialOrdenes;
-
 	private Map<Plato, Double> platosMejorCalificadosPorTipoPlato;
-
 	private Map<EstrategiaPago, Long> numeroOrdenesPorEstrategiaPago;
-
-	private static ManagerRestaurante instance;
-
-	private ManagerRestaurante() {
+	
+	@Autowired
+	private MaquinaDelTiempo maquinaDelTiempo;
+	
+	public ManagerRestaurante() {
 		this.diasTrabajo = new ArrayList<>();
 		this.historialOrdenes = new ArrayList<>();
 		this.platosMejorCalificadosPorTipoPlato = new HashMap<>();
 		this.numeroOrdenesPorEstrategiaPago = new HashMap<>();
-	}
-
-	public static ManagerRestaurante getInstance() {
-		if (instance == null) {
-			instance = new ManagerRestaurante();
-		}
-		return instance;
 	}
 
 	public void agregarOrdenAHistorial(Orden orden) {
@@ -66,29 +62,6 @@ public class ManagerRestaurante {
 	}
 	
  //======================== STATISTICS ===========================
-    
-	/**
-	 * 
-	 */
-    public List<Map<Plato, Long>> getBestSellingDishesPerDishType() {
-        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMasVendidoPorTipoPlato()).collect(Collectors.toList());
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public List<Map<Plato, Double>> getBestRatedDishesPerDishType() {
-        return diasTrabajo.stream().map(wd -> wd.obtenerPlatoMejorCalificadoPorTipoPlato()).collect(Collectors.toList());
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public List<Map<EstrategiaPago, Long>> getCountOfOrdersByPaymentStrategy() {
-        return diasTrabajo.stream().map(wd -> wd.obtenerNumeroOrdenesPorEstrategiaPago()).collect(Collectors.toList());
-    }
 	
 
 	/**
@@ -191,6 +164,7 @@ public class ManagerRestaurante {
 				.collect(Collectors.groupingBy(Orden::getEstrategiaPago, Collectors.counting()));
 	}
 
+	
 	// ===================== GETTERS & SETTERS ============================
 
 	public ArrayList<Orden> getHistorialOrdenes() {
@@ -223,5 +197,9 @@ public class ManagerRestaurante {
 	
 	public void setDiasTrabajo(ArrayList<DiaTrabajo> diasTrabajo) {
 		this.diasTrabajo = diasTrabajo;
+	}
+
+	public ArrayList<RegistroMaquinaDelTiempo> avanzarIntervaloDeTiempo() {
+		return maquinaDelTiempo.avanzarIntervaloDeTiempo();
 	}
 }

@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.restaurante.app.agentes.cliente.Cliente;
-
 /**
  *
  * @author Gabriel Huertas <gabriel970826@gmail.com>
@@ -22,7 +20,6 @@ public class Orden implements Serializable{
 	private ArrayList<OrdenPersonal> ordenesPersonales;
 	private EstrategiaPago estrategiaPago;
 	private boolean estaPreparado;
-
 	
 	public Orden() {}
 	

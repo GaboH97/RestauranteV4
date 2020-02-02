@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.restaurante.app.agentes.mesero.Mesero;
+import com.restaurante.app.global.config.MaquinaDelTiempo;
 import com.restaurante.app.global.config.NetConstants;
+import com.restaurante.app.global.config.RegistroMaquinaDelTiempo;
 import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.config.TimeConstants;
 import com.restaurante.app.global.entities.*;
@@ -38,6 +40,18 @@ public class RestauranteRestController {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private ManagerRestaurante managerRestaurante;
+
+	@Autowired
+	private MaquinaDelTiempo maquinaDelTiempo;
+	
+	@GetMapping("obtenerEstadoRestaurante")
+	@ResponseBody
+	public ArrayList<RegistroMaquinaDelTiempo> obtenerDatosAPintar() {
+		return managerRestaurante.avanzarIntervaloDeTiempo();
+	}
 	
 	@GetMapping("simular")
 	public void simular() {
@@ -82,10 +96,10 @@ public class RestauranteRestController {
 			ArrayList<Pago> pagos = solicitarPagos();
 			pagos.forEach(pago -> diaTrabajo.archivarPago(pago));
 			diaTrabajo.obtenerEstadisticas();
-			ManagerRestaurante.getInstance().getDiasTrabajo().add(diaTrabajo);
+			managerRestaurante.getDiasTrabajo().add(diaTrabajo);
 		}
-		ManagerRestaurante.getInstance().getDiasTrabajo().forEach(dt -> System.out.println(dt.getId()));
-
+		
+		maquinaDelTiempo.ordenarMaquinaDelTiempo();
 	}
 
 	/**
@@ -206,7 +220,7 @@ public class RestauranteRestController {
 	 * @param orden
 	 */
 	private void agregarOrdenAHistorial(Orden orden) {
-		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
+		managerRestaurante.agregarOrdenAHistorial(orden);
 	}
 	
 	/**
@@ -214,7 +228,7 @@ public class RestauranteRestController {
 	 * @param orden
 	 */
 	private void agregarOrdenAHistorial(int diaTrabajoID,Orden orden) {
-		ManagerRestaurante.getInstance().agregarOrdenAHistorial(orden);
+		managerRestaurante.agregarOrdenAHistorial(orden);
 	}
 
 	/**
@@ -222,9 +236,9 @@ public class RestauranteRestController {
 	 */
 	@GetMapping("generarEstadisticas")
 	public ResponseEntity<?> generarEstadisticas() {
-		ManagerRestaurante.getInstance().generarEstadisticas();
+		managerRestaurante.generarEstadisticas();
 		Map<String, Object> body = new HashMap<String, Object>();
-		body.put("dias",ManagerRestaurante.getInstance().getDiasTrabajo());
+		body.put("dias",managerRestaurante.getDiasTrabajo());
 //		
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
