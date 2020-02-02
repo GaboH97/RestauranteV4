@@ -10,15 +10,14 @@ public class Mesa{
 
     public static final int CAPACIDAD_MAXIMA = 5;
 
-    private static int TABLE_COUNT = 1;
     private int id;
     private boolean disponible;
     private int indicadorComodidad;
     private int indicadorCalidad;
     private int capacidad;
 
-    public Mesa(int indicadorCalidad, int indicadorComodidad, int capacidad) {
-        this.id = TABLE_COUNT++;
+    public Mesa(int id,int indicadorCalidad, int indicadorComodidad, int capacidad) {
+        this.id = id;
         this.disponible = true;
         this.indicadorComodidad = indicadorComodidad;
         this.indicadorCalidad = indicadorCalidad;

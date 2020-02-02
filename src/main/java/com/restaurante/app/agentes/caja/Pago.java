@@ -14,15 +14,14 @@ import com.restaurante.app.global.entities.EstrategiaPago;
  */
 public class Pago {
 
-	private static int CONT_PAGO = 1;
 	private int id;
 	private Cliente cliente;
 	private EstrategiaPago estrategiaPago;
 	private double totalOrden;
 	private TipoPago tipoPago;
 
-	public Pago(Cliente cliente, double orderTotal, EstrategiaPago estrategiaPago) {
-		this.id = CONT_PAGO++;
+	public Pago(int id,Cliente cliente, double orderTotal, EstrategiaPago estrategiaPago) {
+		this.id = id;
 		this.cliente = cliente;
 		this.totalOrden = orderTotal;
 		this.estrategiaPago = estrategiaPago;

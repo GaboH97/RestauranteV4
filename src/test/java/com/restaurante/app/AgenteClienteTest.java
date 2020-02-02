@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.restaurante.app.agentes.cliente.GestionarCliente;
 import com.restaurante.app.agentes.mesa.model.Mesa;
+import com.restaurante.app.global.config.Sequences;
 import com.restaurante.app.global.entities.Orden;
 
 @SpringBootTest
@@ -20,7 +21,7 @@ public class AgenteClienteTest {
 	 */
 	@Test
 	public void obtenerMesaLibre() {
-		Mesa mesa = new Mesa(4, 6, 3);
+		Mesa mesa = new Mesa(Sequences.MESA_ID.getAndIncrement(),4, 6, 3);
 		gestionarCliente.setMesa(mesa);
 		// Validacion
 		assertThat(gestionarCliente.getMesa()).isEqualTo(mesa);
