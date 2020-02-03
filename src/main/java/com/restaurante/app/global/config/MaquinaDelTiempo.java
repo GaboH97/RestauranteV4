@@ -23,7 +23,7 @@ public class MaquinaDelTiempo {
 	// el intervalo en el cual se graficaran los agentes
 	public static final Long DELTA_TIEMPO = 10L; 
 	
-	private MaquinaDelTiempo() {
+	public MaquinaDelTiempo() {
 		presente = 0L;
 		registros = new ArrayList<>();
 	}
