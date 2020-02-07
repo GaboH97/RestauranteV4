@@ -82,7 +82,7 @@ public class GestionarCliente {
 			 * con dicho suceso
 			 */
 			Cliente c = new Cliente(Sequences.CLIENTE_ID.getAndIncrement(), arrivalTime);
-			maquinaDelTiempo.agregarRegistro(Identificadores.CLIENTE, c.getTiempoLLegada(), c.getTiempoConsumo(), c);
+			//maquinaDelTiempo.agregarRegistro(Identificadores.CLIENTE, c.getTiempoLLegada(), c.getTiempoConsumo(), c);
 			return c;
 		}).collect(Collectors.toList());
 	}

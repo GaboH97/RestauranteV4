@@ -25,7 +25,7 @@ public class MaquinaDelTiempo {
 	
 	public MaquinaDelTiempo() {
 		presente = 0L;
-		registros = new ArrayList<>();
+		this.registros = new ArrayList<>();
 	}
 
 	/**
@@ -63,5 +63,10 @@ public class MaquinaDelTiempo {
 		}
 		presente += DELTA_TIEMPO;
 		return registrosEnElIntervalo;
+	}
+	
+	
+	public ArrayList<RegistroMaquinaDelTiempo> getRegistros() {
+		return registros;
 	}
 }
